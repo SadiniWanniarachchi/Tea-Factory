@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 
 
 const App = () => {
@@ -8,6 +9,7 @@ const App = () => {
     <div>
 
       <Navbar/>
+      <Hero/>
 
     </div>
 
