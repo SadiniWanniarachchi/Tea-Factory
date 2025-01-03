@@ -1,8 +1,11 @@
 import React from "react";
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
+
+  
     <nav className="flex justify-between items-center px-6 py-2 shadow-md">
 
         {/* Logo */}
@@ -28,6 +31,13 @@ const Navbar = () => {
            Sign Up
           </button>
         </div>
+        
+        {/* Link for Sign Up button */}
+        <Link to="/RegistrationForm">
+          <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
+            Sign Up
+          </button>
+        </Link>
         
       </nav>
   );
