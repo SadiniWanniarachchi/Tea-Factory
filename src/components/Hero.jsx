@@ -29,10 +29,28 @@ const Hero = () => {
           <img
             src={teafield} 
             alt="Tea Field"
-            className="rounded-xl shadow-xl transform transition duration-500 ease-in-out group-hover:scale-105 group-hover:rotate-2 group-hover:shadow-md object-cover w-[750px] h-[680px]"
+            className="rounded-xl shadow-xl object-cover w-[750px] h-[680px]"
           />
-       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black opacity-30 rounded-xl"></div>
        </div>
+
+{/* Stats Section */}
+<div className="bg-white py-10">
+        <div className="max-w-5xl mx-auto grid grid-cols-3 text-center gap-4">
+          <div>
+            <p className="text-3xl font-bold">6 mil</p>
+            <p className="text-gray-600">The company’s annual net income</p>
+          </div>
+          <div>
+            <p className="text-3xl font-bold">315</p>
+            <p className="text-gray-600">Projects completed worldwide</p>
+          </div>
+          <div>
+            <p className="text-3xl font-bold">120K</p>
+            <p className="text-gray-600">Employees work in all parts of the world</p>
+          </div>
+        </div>
+
+        </div>
       </div>
     </header>
   );

@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import QualitySection from "./components/Quality";
+import Card from "./components/Card";
 
 
 const App = () => {
@@ -9,7 +10,10 @@ const App = () => {
     <div>
 
       <Navbar/>
+      <Card/>
       <Hero/>
+      
+      
 
     </div>
 
