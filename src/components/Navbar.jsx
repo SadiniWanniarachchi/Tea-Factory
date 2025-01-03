@@ -16,28 +16,24 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <ul className="hidden md:flex space-x-20 text-[#21501a] font-medium">
-          <li className="hover:text-gray-600 cursor-pointer">Home</li>
-          <li className="hover:text-gray-600 cursor-pointer">About Us</li>
-          <li className="hover:text-gray-600 cursor-pointer">Contact Us</li>
-          <li className="hover:text-gray-600 cursor-pointer">Shop</li>
-        </ul>
+  <li className="hover:text-gray-600 hover:underline cursor-pointer">Home</li>
+  <li className="hover:text-gray-600 hover:underline cursor-pointer">About Us</li>
+  <li className="hover:text-gray-600 hover:underline cursor-pointer">Contact Us</li>
+  <li className="hover:text-gray-600 hover:underline cursor-pointer">Shop</li>
+</ul>
       
 
-        <div className="hidden md:flex space-x-4">
-          <button className="w-24 h-10 border border-[#21501a] text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
-            Login
-          </button>
-          <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
-           Sign Up
-          </button>
-        </div>
-        
-        {/* Link for Sign Up button */}
-        <Link to="/RegistrationForm">
-          <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
-            Sign Up
-          </button>
-        </Link>
+        <div className="hidden md:flex gap-8">
+  <button className="w-24 h-10 border border-[#21501a] text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
+    Login
+  </button>
+
+  <Link to="/RegistrationForm">
+    <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
+      Sign Up
+    </button>
+  </Link>
+ </div>
         
       </nav>
   );

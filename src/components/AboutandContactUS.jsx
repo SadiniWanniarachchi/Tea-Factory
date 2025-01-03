@@ -1,9 +1,16 @@
 import React from "react";
 import teaField from "../assets/tea-field.jpg"; // Add a tea field image
 import teaCup from "../assets/tea-cup.jpg"; // Add a tea cup image
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const AboutContact = () => {
+
   return (
+
+    <>
+    <Navbar />
+
     <div className="min-h-screen bg-gray-100 text-gray-800">
       {/* Hero Section */}
       <div
@@ -108,6 +115,10 @@ const AboutContact = () => {
         </div>
       </section>
     </div>
+
+    <Footer />
+    </>
+
   );
 };
 

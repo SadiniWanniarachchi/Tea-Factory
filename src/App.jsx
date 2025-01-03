@@ -7,16 +7,17 @@ import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
 import Home from "./components/Home";
 
+
 const App = () => {
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/RegistrationForm" element={<RegistrationForm />} />
       </Routes>
-    
-      <Footer />
+      <Footer/>
+      
     </BrowserRouter>
   );
 };
