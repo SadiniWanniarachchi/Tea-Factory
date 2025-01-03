@@ -1,22 +1,23 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Card from "./components/Card";
 import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
 
 const App = () => {
   return (
-      <div>
-        <Navbar />
-        <Routes> {/* Define routes here */}
-          <Route path="/" element={<Hero />} /> {/* Add default route */}
-          <Route path="/RegistrationForm" element={<RegistrationForm />} />
-        </Routes>
-        <Card />
-        <Footer />
-      </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/RegistrationForm" element={<RegistrationForm />} />
+      </Routes>
+    
+      <Footer />
+    </BrowserRouter>
   );
 };
 
