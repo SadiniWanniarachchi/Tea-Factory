@@ -1,29 +1,12 @@
-function Home() {
-    
-    return (
-    <BrowserRouter>
+import React from 'react'
+import Card from './Card.jsx'
+import Hero from './Hero.jsx'
 
-<Routes>
-				<Route path="/" element={<UserLayout />}>
-
-					<Route index element={<Home />} />
-					<Route path="/profile" element={<Profile />} />
-					<Route path="/product-list" element={<ProductList />} />
-					<Route path="/contactus" element={<ContactUs />} />
-
-					<Route
-						path="/product-description/:id"
-						element={<ProductDescription />}
-					/>
-
-                    <Route path="/cart" element={<CartPage />} />
-                    
-                    </Route>
-
-</Routes>
-</BrowserRouter>
-
-);
+export default function Home() {
+  return (
+	<div>
+		<Card/>
+		<Hero/>
+	</div>
+  )
 }
-
-export default Home;
