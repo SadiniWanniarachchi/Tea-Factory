@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <header className="relative bg-white">
       {/* Hero Section */}
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-12">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-10 px-6 py-12">
         
         {/* Left Section */}
         <div className="max-w-lg">
