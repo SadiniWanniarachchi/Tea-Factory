@@ -9,6 +9,8 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
+import ShopPage from "./components/ShopPage";
+import LandingPage from "./components/LandingPage";
 
 
 const App = () => {
@@ -22,6 +24,8 @@ const App = () => {
 
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/ContactUs" element={<ContactUs />} />
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/LandingPage" element={<LandingPage />} />
         
       </Routes>
       <Footer/>

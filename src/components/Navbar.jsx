@@ -19,7 +19,7 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <ul className="hidden md:flex space-x-10 text-[#21501a] font-medium">
             <li className="hover:text-gray-600">
-              <Link to="/">Home</Link>
+              <Link to="/LandingPage">Home</Link>
             </li>
             <li className="hover:text-gray-600">
               <Link to="/AboutUS">About Us</Link>
