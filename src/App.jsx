@@ -7,7 +7,8 @@ import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import AboutandContact from "./components/AboutandContactUS";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
 
 
 const App = () => {
@@ -19,7 +20,8 @@ const App = () => {
         <Route path="/RegistrationForm" element={<RegistrationForm />} />
         <Route path="/Login" element={<Login />} />
 
-        <Route path="/AboutandContactUS" element={<AboutandContact />} />
+        <Route path="/AboutUs" element={<AboutUs />} />
+        <Route path="/ContactUs" element={<ContactUs />} />
         
       </Routes>
       <Footer/>
