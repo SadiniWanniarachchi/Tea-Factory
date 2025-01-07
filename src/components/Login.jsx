@@ -1,5 +1,6 @@
 import React from "react";
-import teaBackground from "../assets/tea-background.jpg"; // Add your tea-themed background image
+import teaBackground from "../assets/field.jpg"; 
+
 
 const Login = () => {
   return (
@@ -8,11 +9,10 @@ const Login = () => {
       style={{ backgroundImage: `url(${teaBackground})` }}
     >
       <div className="bg-white/90 backdrop-blur-md p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-3xl font-bold text-center text-green-900">Welcome Back!</h1>
-        <p className="text-center text-gray-600 mt-2">Login to your tea factory account</p>
+        <h1 className="text-3xl font-bold text-center text-[#21501a]">Welcome Back!</h1>
         <form className="mt-8 space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-black">
               Email Address
             </label>
             <input
@@ -23,7 +23,7 @@ const Login = () => {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-black">
               Password
             </label>
             <input
@@ -37,24 +37,24 @@ const Login = () => {
             <label className="flex items-center">
               <input
                 type="checkbox"
-                className="h-4 w-4 text-green-600 border-gray-300 rounded"
+                className="h-4 w-4 text-[#21501a] border-gray-300 rounded"
               />
-              <span className="ml-2 text-sm text-gray-700">Remember me</span>
+              <span className="ml-2 text-sm text-black">Remember me</span>
             </label>
-            <a href="#" className="text-sm text-green-600 hover:underline">
+            <a href="#" className="text-sm text-[#21501a] hover:underline">
               Forgot password?
             </a>
           </div>
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 transition"
+            className="w-full py-3 px-4 bg-[#21501a] text-white font-bold rounded-md hover:bg-[#21501a] transition"
           >
             Login
           </button>
         </form>
-        <p className="text-center text-sm text-gray-600 mt-4">
+        <p className="text-center text-sm text-black mt-4">
           Don't have an account?{" "}
-          <a href="/signup" className="text-green-600 hover:underline">
+          <a href="/signup" className="text-[#21501a] hover:underline">
             Sign up
           </a>
         </p>

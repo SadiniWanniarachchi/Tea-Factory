@@ -1,21 +1,19 @@
 import React from "react";
-import teaField from "../assets/tea-field.jpg"; // Add a tea field image
-import teaCup from "../assets/tea-cup.jpg"; // Add a tea cup image
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import teafield from "../assets/teafield.jpeg";
+import teaCup from "../assets/teaCup.jpeg";
+
+
 
 const AboutContact = () => {
 
   return (
 
-    <>
-    <Navbar />
-
+    
     <div className="min-h-screen bg-gray-100 text-gray-800">
       {/* Hero Section */}
       <div
         className="relative h-96 bg-cover bg-center flex items-center justify-center text-white text-center"
-        style={{ backgroundImage: `url(${teaField})` }}
+        style={{ backgroundImage: `url(${teafield})` }}
       >
         <div className="bg-black/50 p-8 rounded-lg">
           <h1 className="text-4xl font-bold">Welcome to Our Tea Factory</h1>
@@ -116,8 +114,7 @@ const AboutContact = () => {
       </section>
     </div>
 
-    <Footer />
-    </>
+    
 
   );
 };

@@ -6,6 +6,8 @@ import Card from "./components/Card";
 import Footer from "./components/Footer";
 import RegistrationForm from "./components/RegistrationForm";
 import Home from "./components/Home";
+import Login from "./components/Login";
+import AboutandContact from "./components/AboutandContactUS";
 
 
 const App = () => {
@@ -15,6 +17,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/RegistrationForm" element={<RegistrationForm />} />
+        <Route path="/Login" element={<Login />} />
+
+        <Route path="/AboutandContactUS" element={<AboutandContact />} />
+        
       </Routes>
       <Footer/>
       

@@ -15,18 +15,30 @@ const Navbar = () => {
         </div>
 
         {/* Navigation Links */}
-        <ul className="hidden md:flex space-x-20 text-[#21501a] font-medium">
+        {/* Navigation Links */}
+  <ul className="hidden md:flex space-x-20 text-[#21501a] font-medium">
   <li className="hover:text-gray-600 hover:underline cursor-pointer">Home</li>
-  <li className="hover:text-gray-600 hover:underline cursor-pointer">About Us</li>
-  <li className="hover:text-gray-600 hover:underline cursor-pointer">Contact Us</li>
+
+  <Link to="/AboutandContactUS">
+    <li className="hover:text-gray-600 hover:underline cursor-pointer">About Us</li>
+  </Link>
+
+  <Link to="/AboutandContactUS">
+    <li className="hover:text-gray-600 hover:underline cursor-pointer">Contact Us</li>
+  </Link>
+
   <li className="hover:text-gray-600 hover:underline cursor-pointer">Shop</li>
 </ul>
+
       
 
-        <div className="hidden md:flex gap-8">
+  <div className="hidden md:flex gap-8">
+
+  <Link to="/Login">
   <button className="w-24 h-10 border border-[#21501a] text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
     Login
   </button>
+  </Link>
 
   <Link to="/RegistrationForm">
     <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
