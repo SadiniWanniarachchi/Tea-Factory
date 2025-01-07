@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center">
@@ -31,6 +31,20 @@ const Navbar = () => {
               <Link to="/Shop">Shop</Link>
             </li>
           </ul>
+
+          {/* Desktop Buttons */}
+          <div className="hidden md:flex gap-10">
+            <Link to="/Login">
+              <button className="w-24 h-10 border border-[#21501a] text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
+                Login
+              </button>
+            </Link>
+            <Link to="/RegistrationForm">
+              <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
+                Sign Up
+              </button>
+            </Link>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
