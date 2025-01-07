@@ -10,7 +10,7 @@ const AboutContact = () => {
         <div className="max-w-7xl mx-auto py-12 px-6 text-center">
           <h1 className="text-4xl font-bold mb-4">HarvestBrew Tea Factory</h1>
           <p className="text-lg font-thin">
-            Discover the essence of quality and tradition in every leaf.
+            Discover the essence of quality and tradition in every leaf!
           </p>
         </div>
       </div>
@@ -20,14 +20,14 @@ const AboutContact = () => {
         {/* Left Section */}
         <div>
           <h2 className="text-4xl font-bold mb-4">Our Story</h2>
-          <p className="mb-6 text-black text-xl">
+          <p className="mb-6 text-gray-700 text-lg">
             Nestled in the lush green hills, our tea factory has been crafting
             exceptional teas for over a decade. We take pride in blending
             tradition with innovation to deliver the finest tea to your cup.
           </p>
 
           <h2 className="text-4xl font-bold mb-4 mt-32">Our Vision</h2>
-          <p className="mb-6 text-black text-xl">
+          <p className="mb-6 text-gray-700 text-lg">
             To bring a world-class tea experience while supporting sustainable
             farming and local communities.
           </p>
@@ -44,7 +44,7 @@ const AboutContact = () => {
       </div>
 
      {/* Values Section */}
-<div className="bg-white text-black py-16">
+<div className="bg-white text-gray-700 py-16">
   <div className="max-w-7xl mx-auto text-center">
     <h2 className="text-4xl font-bold text-gray-600 mb-12">Our Values</h2>
     <div className="grid md:grid-cols-3 gap-10">
