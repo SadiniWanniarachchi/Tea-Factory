@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
+import { FaUserCircle } from "react-icons/fa";
 
-const Navbar = () => {
-  // State to toggle mobile menu
+const Navbar1 = () => {
+  // State to toggle mobile menu and profile dropdown
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-md">
@@ -27,21 +29,42 @@ const Navbar = () => {
             <li className="hover:text-gray-600">
               <Link to="/ContactUS">Contact Us</Link>
             </li>
-            
+            <li className="hover:text-gray-600">
+              <Link to="/Shop">Shop</Link>
+            </li>
           </ul>
 
-          {/* Desktop Buttons */}
-          <div className="hidden md:flex gap-10">
-            <Link to="/Login">
-              <button className="w-24 h-10 border border-[#21501a] text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
-                Login
-              </button>
-            </Link>
-            <Link to="/RegistrationForm">
-              <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
-                Sign Up
-              </button>
-            </Link>
+          {/* Profile Dropdown - Desktop */}
+          <div className="hidden md:flex items-center relative">
+            <button
+              onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+              className="flex items-center space-x-2 focus:outline-none"
+            >
+              <FaUserCircle className="text-3xl text-[#21501a]" />
+              <span className="text-[#21501a] font-medium">John Doe</span>
+            </button>
+            {isProfileMenuOpen && (
+              <div className="absolute right-0 mt-12 w-40 bg-white shadow-md rounded-md overflow-hidden z-10">
+                <Link
+                  to="/dashboard"
+                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/settings"
+                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                >
+                  Settings
+                </Link>
+                <button
+                  onClick={() => console.log("Logout")}
+                  className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -87,47 +110,48 @@ const Navbar = () => {
         {isMenuOpen && (
           <ul className="md:hidden bg-white border-t border-gray-200">
             <li className="border-b border-gray-200">
-              <Link
-                to="/"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
-              >
+              <Link to="/" className="block px-4 py-2 text-[#21501a] hover:bg-gray-100">
                 Home
               </Link>
             </li>
             <li className="border-b border-gray-200">
-              <Link
-                to="/AboutUS"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
-              >
+              <Link to="/AboutUS" className="block px-4 py-2 text-[#21501a] hover:bg-gray-100">
                 About Us
               </Link>
             </li>
             <li className="border-b border-gray-200">
-              <Link
-                to="/ContactUS"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
-              >
+              <Link to="/ContactUS" className="block px-4 py-2 text-[#21501a] hover:bg-gray-100">
                 Contact Us
               </Link>
             </li>
             <li className="border-b border-gray-200">
-              
+              <Link to="/Shop" className="block px-4 py-2 text-[#21501a] hover:bg-gray-100">
+                Shop
+              </Link>
             </li>
             <li className="border-b border-gray-200">
               <Link
-                to="/Login"
+                to="/dashboard"
                 className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
               >
-                Login
+                Profile
+              </Link>
+            </li>
+            <li className="border-b border-gray-200">
+              <Link
+                to="/settings"
+                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
+              >
+                Settings
               </Link>
             </li>
             <li>
-              <Link
-                to="/RegistrationForm"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
+              <button
+                onClick={() => console.log("Logout")}
+                className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
               >
-                Sign Up
-              </Link>
+                Logout
+              </button>
             </li>
           </ul>
         )}
@@ -136,4 +160,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar1;

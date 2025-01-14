@@ -16,7 +16,7 @@ function Footer() {
   return (
 
     <motion.footer
-  className="bg-[#000000] pt-12 sm:pt-20 pb-8"
+  className="bg-[#000000] pt-12 sm:pt-20 pb-8 z-10"
   variants={footerVariants}
   initial="hidden"
   whileInView="visible"

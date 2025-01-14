@@ -7,9 +7,16 @@ import {
   FaInstagram,
   FaPinterest,
 } from "react-icons/fa";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const ContactUs = () => {
   return (
+
+    <>
+
+    <Navbar/>
+    
     <div className="bg-accent min-h-screen py-16 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Title */}
@@ -103,6 +110,9 @@ const ContactUs = () => {
         </div>
       </div>
     </div>
+
+    <Footer/>
+    </>
   );
 };
 

@@ -1,9 +1,14 @@
 import React from "react";
 import teaLeaves from '../assets/greentea.jpg'; // Ensure the path is correct
 import { FaLeaf, FaCertificate, FaUsers } from 'react-icons/fa';
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const AboutContact = () => {
   return (
+    <>
+
+    <Navbar/>
     <div className="bg-accent text-gray-600">
       {/* Header Section */}
       <div className="relative bg-primary text-[#21501a]">
@@ -84,6 +89,9 @@ const AboutContact = () => {
   </div>
 </div>
         </div>
+
+        <Footer/>
+        </>
 
   );
 };

@@ -1,8 +1,16 @@
 import React from "react";
-import teaBackground from "../assets/field.jpg"; 
-
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import teaBackground from "../assets/field.jpg";
 
 const Login = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  // Function to handle form submission
+  const handleLogin = (e) => {
+    e.preventDefault();
+    navigate("/LandingPage"); // Navigate to the landing page
+  };
+
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
@@ -10,7 +18,7 @@ const Login = () => {
     >
       <div className="bg-white/90 backdrop-blur-md p-8 rounded-lg shadow-lg max-w-md w-full">
         <h1 className="text-3xl font-bold text-center text-[#21501a]">Welcome Back!</h1>
-        <form className="mt-8 space-y-4">
+        <form className="mt-8 space-y-4" onSubmit={handleLogin}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-black">
               Email Address
