@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
-import Navbar from "./Navbar";
+import Navbar1 from "./Navbar1";
 import Footer from "./Footer";
 import Product from "./Product"; // Import Product component
 import oolongTea from "../assets/oolongtea.jpeg";
@@ -57,7 +57,7 @@ const ShopPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar1 />
       <div className="min-h-screen bg-accent text-gray-800">
         <h1 className="text-4xl font-bold text-center py-10 text-[#21501a]">
           Our Tea Collection

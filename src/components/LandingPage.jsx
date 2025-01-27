@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaLeaf, FaHandshake, FaSeedling, FaArrowRight } from "react-icons/fa";
-import heroImage from "../assets/greentea.jpg"; // Replace with your image
+import { FaArrowRight, FaHeart, FaStar, FaLeaf, FaMugHot, FaSmile, FaSeedling, FaHandshake } from "react-icons/fa";
+import heroImage from "../assets/teatypes.jpeg";
 import product1 from "../assets/blacktea.jpg";
 import product2 from "../assets/herbaltea.jpeg";
 import product3 from "../assets/lemontea.jpeg";
@@ -10,104 +10,171 @@ import Footer from "./Footer";
 
 const LandingPage = () => {
   return (
-
     <>
-    
-    <Navbar1 />
-    <div className="bg-[#f3f6f3] text-gray-800">
-      {/* Hero Section */}
-      <section
-        className="relative h-screen bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroImage})` }}
+      <Navbar1 />
+      <div className="bg-[#f3f6f3] text-gray-800">
+        {/* Hero Section */}
+        <section className="relative h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${heroImage})` }}>
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white px-4 sm:px-10">
+            <div className="text-center">
+              <motion.h1
+                className="text-6xl font-extrabold mb-4 text-shadow-md"
+                animate={{ opacity: [0, 1], y: [50, 0] }}
+                transition={{ duration: 1 }}
+              >
+                Premium Organic Teas
+              </motion.h1>
+              <motion.p
+                className="text-2xl mb-6 opacity-0"
+                animate={{ opacity: [0, 1] }}
+                transition={{ duration: 1, delay: 0.5 }}
+              >
+                Handcrafted with the finest leaves for a perfect brew.
+              </motion.p>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                className="bg-[#21501a] text-white py-3 px-6 rounded-full text-lg shadow-lg hover:bg-[#183d14] transition duration-300"
+              >
+                Explore Our Teas <FaArrowRight className="inline ml-2" />
+              </motion.button>
+            </div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section className="max-w-6xl mx-auto py-16 px-4 text-center">
+          <motion.h2
+            className="text-5xl font-bold text-[#21501a] mb-8"
+            animate={{ opacity: [0, 1], y: [50, 0] }}
+            transition={{ duration: 1 }}
+          >
+            Why Choose Us?
+          </motion.h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+              className="bg-white p-8 rounded-lg shadow-2xl transform hover:scale-105 transition duration-300"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FaLeaf className="text-[#21501a] text-5xl mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Organic Teas</h3>
+              <p>Our teas are 100% organic, grown with care and love.</p>
+            </motion.div>
+            <motion.div
+              className="bg-white p-8 rounded-lg shadow-lg transform hover:scale-105 transition duration-300"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FaSeedling className="text-[#21501a] text-5xl mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Sustainability Focused</h3>
+              <p>Eco-conscious from farm to your cup.</p>
+            </motion.div>
+            <motion.div
+              className="bg-white p-8 rounded-lg shadow-lg transform hover:scale-105 transition duration-300"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FaHandshake className="text-[#21501a] text-5xl mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Trusted Partnerships</h3>
+              <p>We collaborate with ethical farms to bring you the best.</p>
+            </motion.div>
+          </div>
+        </section>
+
+       {/* Product Showcase */}
+<section className="bg-[#f4faf4] py-16 px-6">
+  <motion.h2
+    className="text-5xl font-bold text-center text-[#21501a] mb-12"
+    animate={{ opacity: [0, 1], y: [50, 0] }}
+    transition={{ duration: 1 }}
+  >
+    Featured Products
+  </motion.h2>
+
+  <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+    {[product1, product2, product3].map((product, index) => (
+      <motion.div
+        key={index}
+        className="bg-white backdrop-blur-lg shadow-lg rounded-2xl overflow-hidden transition duration-300 hover:shadow-2xl"
+        whileHover={{ scale: 1.05 }}
       >
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white">
-          <div className="text-center">
-            <h1 className="text-5xl font-bold mb-4">Welcome to Our Tea Factory</h1>
-            <p className="text-xl mb-6">Discover the finest organic teas crafted with passion.</p>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              className="bg-[#21501a] text-white py-3 px-6 rounded-full text-lg shadow-lg hover:bg-[#183d14]"
-            >
-              Explore Our Teas <FaArrowRight className="inline ml-2" />
-            </motion.button>
-          </div>
+        <div className="relative group">
+          <img
+            src={product}
+            alt={`Product ${index + 1}`}
+            className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Overlay Effect */}
+          <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition duration-300"></div>
         </div>
-      </section>
-
-      {/* About Section */}
-      <section className="max-w-6xl mx-auto py-16 px-4 text-center">
-        <h2 className="text-4xl font-bold text-[#21501a] mb-8">Why Choose Us?</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition">
-            <FaLeaf className="text-[#21501a] text-4xl mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Organic Teas</h3>
-            <p>Our teas are 100% organic and sourced from sustainable farms.</p>
-          </div>
-          <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition">
-            <FaSeedling className="text-[#21501a] text-4xl mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Eco-Friendly</h3>
-            <p>We prioritize eco-friendly practices in all stages of production.</p>
-          </div>
-          <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition">
-            <FaHandshake className="text-[#21501a] text-4xl mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Trusted Partners</h3>
-            <p>We build lasting relationships with our partners and customers.</p>
-          </div>
+        
+        <div className="p-6 text-center">
+          <h3 className="text-2xl font-semibold text-[#21501a] mb-2">
+            Product {index + 1}
+          </h3>
+          <p className="text-gray-600 text-lg mb-4">$18.99</p>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            className="px-6 py-3 bg-[#21501a] text-white rounded-full shadow-md hover:bg-[#183b12] transition duration-300"
+          >
+            Buy Now
+          </motion.button>
         </div>
-      </section>
+      </motion.div>
+    ))}
+  </div>
+</section>
 
-      {/* Product Showcase */}
-      <section className="bg-[#e8f0e8] py-16 px-4">
-        <h2 className="text-4xl font-bold text-center text-[#21501a] mb-8">Our Bestsellers</h2>
-        <div className="flex gap-8 overflow-x-auto">
-          {[product1, product2, product3].map((product, index) => (
-            <motion.div
-              key={index}
-              className="bg-white shadow-lg rounded-lg overflow-hidden min-w-[300px]"
-              whileHover={{ scale: 1.05 }}
-            >
-              <img src={product} alt="Product" className="w-full h-48 object-cover" />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-[#21501a]">Product {index + 1}</h3>
-                <p className="text-gray-600">$15.99</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
 
-      {/* Testimonials Section */}
-      <section className="max-w-6xl mx-auto py-16 px-4 text-center">
-        <h2 className="text-4xl font-bold text-[#21501a] mb-8">What Our Customers Say</h2>
-        <div className="flex gap-8 overflow-x-auto">
-          {["Best tea ever!", "Amazing quality!", "I love their service!"].map((testimonial, index) => (
-            <motion.div
-              key={index}
-              className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition min-w-[300px]"
-              whileHover={{ scale: 1.05 }}
-            >
-              <p className="italic">"{testimonial}"</p>
-              <p className="text-[#21501a] font-semibold mt-4">- Customer {index + 1}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact Banner */}
-      <section className="bg-[#21501a] text-white py-12 text-center">
-        <h2 className="text-3xl font-bold mb-4">Want to Partner with Us?</h2>
-        <p>Contact us today to start your journey with the finest teas!</p>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          className="mt-6 bg-white text-[#21501a] py-3 px-6 rounded-full text-lg shadow-lg"
+        {/* Parallax Scroll Effect */}
+        <section
+          className="relative bg-cover bg-center py-24"
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            backgroundAttachment: "fixed",
+            backgroundPosition: "center",
+          }}
         >
-          Contact Us
-        </motion.button>
-      </section>
+          
+        </section>
+
+        {/* Testimonials Section */}
+<section className="max-w-6xl mx-auto py-16 px-4 text-center overflow-hidden relative">
+  <motion.h2
+    className="text-5xl font-bold text-[#21501a] mb-12"
+    animate={{ opacity: [0, 1], y: [50, 0] }}
+    transition={{ duration: 1 }}
+  >
+    What Our Customers Are Saying
+  </motion.h2>
+  
+  {/* Marquee Wrapper */}
+  <div className="relative overflow-hidden">
+    <div className="flex gap-8 whitespace-nowrap animate-marquee">
+      {[
+        { text: "Best tea ever!", icon: <FaHeart className="text-red-500 text-3xl" /> },
+        { text: "Amazing quality!", icon: <FaStar className="text-yellow-400 text-3xl" /> },
+        { text: "Love the eco-friendly practices!", icon: <FaLeaf className="text-green-500 text-3xl" /> },
+        { text: "Wonderful taste!", icon: <FaMugHot className="text-orange-500 text-3xl" /> },
+        { text: "Highly recommended!", icon: <FaSmile className="text-blue-500 text-3xl" /> },
+      ].map((testimonial, index) => (
+        <motion.div
+          key={index}
+          className="bg-gradient-to-br from-[#21501a] to-[#183d14] p-8 rounded-xl shadow-xl hover:shadow-2xl transition-transform transform hover:scale-105 min-w-[320px] mx-2"
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="flex flex-col items-center space-y-6">
+            <div className="text-white">{testimonial.icon}</div>
+            <p className="italic text-lg text-white text-center leading-relaxed">
+              <span className="text-4xl">“</span> {testimonial.text} <span className="text-4xl">”</span>
+            </p>
+            <p className="text-[#f3f6f3] font-semibold">- Customer {index + 1}</p>
+          </div>
+        </motion.div>
+      ))}
     </div>
+  </div>
+</section>
 
-<Footer />
-
+      </div>
+      <Footer />
     </>
   );
 };

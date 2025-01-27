@@ -27,6 +27,10 @@ const Navbar = () => {
             <li className="hover:text-gray-600">
               <Link to="/ContactUS">Contact Us</Link>
             </li>
+            <li className="hover:text-gray-600">
+              <Link to="/Shop">Shop</Link>
+            </li>
+            
             
           </ul>
 
@@ -120,6 +124,11 @@ const Navbar = () => {
               >
                 Login
               </Link>
+            </li>
+            <li className="border-b border-gray-200">
+              <Link to="/Shop" className="block px-4 py-2 text-[#21501a] hover:bg-gray-100">
+                Shop
+             </Link>
             </li>
             <li>
               <Link

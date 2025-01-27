@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { FaUserCircle } from "react-icons/fa";
+import { FiChevronDown } from "react-icons/fi";
 
 const Navbar1 = () => {
   // State to toggle mobile menu and profile dropdown
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
+
+  // Close the dropdown when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
     <nav className="bg-white shadow-md">
@@ -21,7 +36,7 @@ const Navbar1 = () => {
           {/* Desktop Menu */}
           <ul className="hidden md:flex space-x-10 text-[#21501a] font-medium">
             <li className="hover:text-gray-600">
-              <Link to="/">Home</Link>
+              <Link to="/LandingPage">Home</Link>
             </li>
             <li className="hover:text-gray-600">
               <Link to="/AboutUS">About Us</Link>
@@ -35,16 +50,19 @@ const Navbar1 = () => {
           </ul>
 
           {/* Profile Dropdown - Desktop */}
-          <div className="hidden md:flex items-center relative">
+          <div className="hidden md:flex items-center relative" ref={profileMenuRef}>
             <button
               onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
               className="flex items-center space-x-2 focus:outline-none"
             >
               <FaUserCircle className="text-3xl text-[#21501a]" />
               <span className="text-[#21501a] font-medium">John Doe</span>
+              <FiChevronDown className="text-[#21501a] text-xl" />
             </button>
+
+            {/* Dropdown menu */}
             {isProfileMenuOpen && (
-              <div className="absolute right-0 mt-12 w-40 bg-white shadow-md rounded-md overflow-hidden z-10">
+              <div className="absolute left-0 top-7 mt-2 w-40 bg-white shadow-md rounded-md z-10">
                 <Link
                   to="/dashboard"
                   className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
@@ -59,7 +77,7 @@ const Navbar1 = () => {
                 </Link>
                 <button
                   onClick={() => console.log("Logout")}
-                  className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
                 >
                   Logout
                 </button>
@@ -129,6 +147,8 @@ const Navbar1 = () => {
                 Shop
               </Link>
             </li>
+
+            {/* Profile Dropdown */}
             <li className="border-b border-gray-200">
               <Link
                 to="/dashboard"
