@@ -5,13 +5,13 @@ import heroImage from "../assets/teatypes.jpeg";
 import product1 from "../assets/blacktea.jpg";
 import product2 from "../assets/herbaltea.jpeg";
 import product3 from "../assets/lemontea.jpeg";
-import Navbar1 from "./Navbar1";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 const LandingPage = () => {
   return (
     <>
-      <Navbar1 />
+      <Navbar />
       <div className="bg-[#f3f6f3] text-gray-800">
         {/* Hero Section */}
         <section className="relative h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${heroImage})` }}>
@@ -78,49 +78,49 @@ const LandingPage = () => {
           </div>
         </section>
 
-       {/* Product Showcase */}
-<section className="bg-[#f4faf4] py-16 px-6">
-  <motion.h2
-    className="text-5xl font-bold text-center text-[#21501a] mb-12"
-    animate={{ opacity: [0, 1], y: [50, 0] }}
-    transition={{ duration: 1 }}
-  >
-    Featured Products
-  </motion.h2>
-
-  <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-    {[product1, product2, product3].map((product, index) => (
-      <motion.div
-        key={index}
-        className="bg-white backdrop-blur-lg shadow-lg rounded-2xl overflow-hidden transition duration-300 hover:shadow-2xl"
-        whileHover={{ scale: 1.05 }}
-      >
-        <div className="relative group">
-          <img
-            src={product}
-            alt={`Product ${index + 1}`}
-            className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-          {/* Overlay Effect */}
-          <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition duration-300"></div>
-        </div>
-        
-        <div className="p-6 text-center">
-          <h3 className="text-2xl font-semibold text-[#21501a] mb-2">
-            Product {index + 1}
-          </h3>
-          <p className="text-gray-600 text-lg mb-4">$18.99</p>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            className="px-6 py-3 bg-[#21501a] text-white rounded-full shadow-md hover:bg-[#183b12] transition duration-300"
+        {/* Product Showcase */}
+        <section className="bg-[#f4faf4] py-16 px-6">
+          <motion.h2
+            className="text-5xl font-bold text-center text-[#21501a] mb-12"
+            animate={{ opacity: [0, 1], y: [50, 0] }}
+            transition={{ duration: 1 }}
           >
-            Buy Now
-          </motion.button>
-        </div>
-      </motion.div>
-    ))}
-  </div>
-</section>
+            Featured Products
+          </motion.h2>
+
+          <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            {[product1, product2, product3].map((product, index) => (
+              <motion.div
+                key={index}
+                className="bg-white backdrop-blur-lg shadow-lg rounded-2xl overflow-hidden transition duration-300 hover:shadow-2xl"
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="relative group">
+                  <img
+                    src={product}
+                    alt={`Product ${index + 1}`}
+                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* Overlay Effect */}
+                  <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                </div>
+
+                <div className="p-6 text-center">
+                  <h3 className="text-2xl font-semibold text-[#21501a] mb-2">
+                    Product {index + 1}
+                  </h3>
+                  <p className="text-gray-600 text-lg mb-4">$18.99</p>
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    className="px-6 py-3 bg-[#21501a] text-white rounded-full shadow-md hover:bg-[#183b12] transition duration-300"
+                  >
+                    Buy Now
+                  </motion.button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
 
         {/* Parallax Scroll Effect */}
@@ -132,46 +132,46 @@ const LandingPage = () => {
             backgroundPosition: "center",
           }}
         >
-          
+
         </section>
 
         {/* Testimonials Section */}
-<section className="max-w-6xl mx-auto py-16 px-4 text-center overflow-hidden relative">
-  <motion.h2
-    className="text-5xl font-bold text-[#21501a] mb-12"
-    animate={{ opacity: [0, 1], y: [50, 0] }}
-    transition={{ duration: 1 }}
-  >
-    What Our Customers Are Saying
-  </motion.h2>
-  
-  {/* Marquee Wrapper */}
-  <div className="relative overflow-hidden">
-    <div className="flex gap-8 whitespace-nowrap animate-marquee">
-      {[
-        { text: "Best tea ever!", icon: <FaHeart className="text-red-500 text-3xl" /> },
-        { text: "Amazing quality!", icon: <FaStar className="text-yellow-400 text-3xl" /> },
-        { text: "Love the eco-friendly practices!", icon: <FaLeaf className="text-green-500 text-3xl" /> },
-        { text: "Wonderful taste!", icon: <FaMugHot className="text-orange-500 text-3xl" /> },
-        { text: "Highly recommended!", icon: <FaSmile className="text-blue-500 text-3xl" /> },
-      ].map((testimonial, index) => (
-        <motion.div
-          key={index}
-          className="bg-gradient-to-br from-[#21501a] to-[#183d14] p-8 rounded-xl shadow-xl hover:shadow-2xl transition-transform transform hover:scale-105 min-w-[320px] mx-2"
-          whileHover={{ scale: 1.05 }}
-        >
-          <div className="flex flex-col items-center space-y-6">
-            <div className="text-white">{testimonial.icon}</div>
-            <p className="italic text-lg text-white text-center leading-relaxed">
-              <span className="text-4xl">“</span> {testimonial.text} <span className="text-4xl">”</span>
-            </p>
-            <p className="text-[#f3f6f3] font-semibold">- Customer {index + 1}</p>
+        <section className="max-w-6xl mx-auto py-16 px-4 text-center overflow-hidden relative">
+          <motion.h2
+            className="text-5xl font-bold text-[#21501a] mb-12"
+            animate={{ opacity: [0, 1], y: [50, 0] }}
+            transition={{ duration: 1 }}
+          >
+            What Our Customers Are Saying
+          </motion.h2>
+
+          {/* Marquee Wrapper */}
+          <div className="relative overflow-hidden">
+            <div className="flex gap-8 whitespace-nowrap animate-marquee">
+              {[
+                { text: "Best tea ever!", icon: <FaHeart className="text-red-500 text-3xl" /> },
+                { text: "Amazing quality!", icon: <FaStar className="text-yellow-400 text-3xl" /> },
+                { text: "Love the eco-friendly practices!", icon: <FaLeaf className="text-green-500 text-3xl" /> },
+                { text: "Wonderful taste!", icon: <FaMugHot className="text-orange-500 text-3xl" /> },
+                { text: "Highly recommended!", icon: <FaSmile className="text-blue-500 text-3xl" /> },
+              ].map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-gradient-to-br from-[#21501a] to-[#183d14] p-8 rounded-xl shadow-xl hover:shadow-2xl transition-transform transform hover:scale-105 min-w-[320px] mx-2"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <div className="flex flex-col items-center space-y-6">
+                    <div className="text-white">{testimonial.icon}</div>
+                    <p className="italic text-lg text-white text-center leading-relaxed">
+                      <span className="text-4xl">“</span> {testimonial.text} <span className="text-4xl">”</span>
+                    </p>
+                    <p className="text-[#f3f6f3] font-semibold">- Customer {index + 1}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
+        </section>
 
       </div>
       <Footer />
