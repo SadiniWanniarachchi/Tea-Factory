@@ -3,7 +3,8 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from "../assets/teapot.jpg";
-import { FaGoogle, FaApple } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { SiApple } from "react-icons/si";
 
 export default function Register() {
 
@@ -74,17 +75,17 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white font-kulim">
-      <div className="w-full max-w-5xl flex bg-[#21501a] rounded-lg shadow-2xl overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-[#fff8f8] font-kulim">
+      <div className="w-full max-w-5xl flex bg-green-900 rounded-lg shadow-2xl overflow-hidden">
         <div
           className="hidden md:flex md:w-1/2 bg-cover bg-center"
           style={{ backgroundImage: `url(${backgroundImage})` }}
         ></div>
 
-        <div className="w-full md:w-1/2 bg-white text-[#000000] p-8 md:p-12 flex flex-col justify-center">
+        <div className="w-full md:w-1/2 bg-white text-green-900 p-8 md:p-12 flex flex-col justify-center">
           <h2 className="text-3xl font-bold">Create an Account</h2>
-          <p className="text-black mt-4">
-            Already have an account? <a href="#" className="text-black hover:underline">Log in</a>
+          <p className="text-green-900 mt-4">
+            Already have an account? <a href="/Login" className="text-green-900 hover:underline">Log in</a>
           </p>
 
           <form onSubmit={registerUser} className="mt-6 space-y-8">
@@ -111,17 +112,17 @@ export default function Register() {
               className="w-full p-3 rounded-md border border-black" />
 
 
-            <button type="submit" className="w-full bg-[#000000] text-white py-3 rounded-md">Create Account</button>
+            <button type="submit" className="w-full bg-green-900 text-white py-3 rounded-md">Create Account</button>
           </form>
 
           <div className="mt-6 text-center text-base text-black font-semibold">Or register with</div>
 
           <div className="flex space-x-4 mt-4">
-            <button className="flex-1 py-3 bg-gray-800 text-white rounded-md border border-gray-700 hover:border-gray-600 flex items-center justify-center">
-              <FaGoogle className="mr-2" /> Google
+            <button className="flex-1 py-3 bg-gray-200 text-black rounded-md border border-gray-700 hover:border-gray-600 flex items-center justify-center">
+              <FcGoogle className="mr-2" /> Google
             </button>
-            <button className="flex-1 py-3 bg-gray-800 text-white rounded-md border border-gray-700 hover:border-gray-600 flex items-center justify-center">
-              <FaApple className="mr-2" /> Apple
+            <button className="flex-1 py-3 bg-gray-200 text-black rounded-md border border-gray-700 hover:border-gray-600 flex items-center justify-center">
+              <SiApple className="mr-2" /> Apple
             </button>
           </div>
         </div>
