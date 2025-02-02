@@ -12,12 +12,15 @@ import ContactUs from "./components/ContactUs";
 import ShopPage from "./components/ShopPage";
 import ShoppingCart from './components/ShoppingCart';
 import LandingPage from "./components/LandingPage";
-
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <BrowserRouter>
-      
+      <Toaster
+        position="top-center"
+        toastOptions={{ duration: 2000 }}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/RegistrationForm" element={<RegistrationForm />} />
@@ -27,10 +30,10 @@ const App = () => {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/ShoppingCart" element={<ShoppingCart />} />
         <Route path="/LandingPage" element={<LandingPage />} />
-        
+
       </Routes>
-      
-      
+
+
     </BrowserRouter>
   );
 };

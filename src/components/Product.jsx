@@ -8,20 +8,20 @@ const Product = ({ product, addToCart }) => {
 
   return (
     <motion.div
-      className="bg-[#f3f6f3] border border-gray-200 rounded-lg shadow-sm hover:shadow-md overflow-hidden transition-transform transform hover:-translate-y-2"
+      className="bg-[#f3f6f3] font-kulim border border-gray-200 rounded-lg shadow-sm hover:shadow-md overflow-hidden transition-transform transform hover:-translate-y-2"
       whileHover={{ scale: 1.05 }}
     >
       {/* Product Image */}
-      <div className="relative">
+      <div className="relative font-kulim">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-48 object-cover"
+          className="w-full h-48 object-cover font-kulim"
         />
       </div>
 
       {/* Product Details */}
-      <div className="p-4 text-center">
+      <div className="p-4 text-center font-kulim">
         <h3 className="text-xl font-semibold text-[#21501a] mb-2">
           {product.name}
         </h3>
@@ -40,7 +40,7 @@ const Product = ({ product, addToCart }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-between items-center p-4 border-t border-gray-200 bg-[#f3f6f3]">
+      <div className="flex font-kulim justify-between items-center p-4 border-t border-gray-200 bg-[#f3f6f3]">
         <button className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition">
           <FaHeart />
         </button>

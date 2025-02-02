@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+
+      fontFamily: {
+        kulim: ['"Kulim Park"', 'sans-serif'],
+        parkinsans: ['"Parkinsans"', 'sans-serif'],
+      },
+
       animation: {
         marquee: "marquee 20s linear infinite",
       },

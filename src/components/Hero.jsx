@@ -30,24 +30,24 @@ const HeroSection = () => {
   return (
     <div
       ref={ref}
-      className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-10 px-6 py-12"
+      className="font-kulim container mx-auto flex flex-col md:flex-row items-center justify-center gap-10 px-6 py-12"
     >
       {/* Left Section */}
       <motion.div
-        className="max-w-lg"
+        className="max-w-lg font-kulim"
         variants={textVariants}
         initial="hidden"
         animate={controls}
       >
-        <h1 className="text-5xl font-bold text-gray-800 leading-tight mt-[-20px]">
-          Welcome To Our <span className="text-[#21501a]">HarvestBrew</span> <br />
+        <h1 className="text-5xl font-bold text-black leading-tight mt-[-20px] font-kulim">
+          Welcome To Our <span className="text-green-900">HarvestBrew</span> <br />
           Tea Factory
         </h1>
-        <p className="mt-14 text-gray-600 font-bold">
+        <p className="mt-14 text-gray-600 font-bold font-kulim">
           "From leaf to cup, experience the art of tea-making. Discover premium blends, crafted with care in every sip. Welcome to the heart of tradition and taste."
         </p>
-        <div className="mt-16 flex space-x-20">
-          <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
+        <div className="mt-16 flex space-x-20 font-kulim">
+          <button className="font-kulim w-24 h-10 bg-green-900 text-white font-medium rounded-full transition">
             Shop Now
           </button>
         </div>
@@ -55,7 +55,7 @@ const HeroSection = () => {
 
       {/* Right Section */}
       <motion.div
-        className="relative w-full md:w-1/2 mt-14 md:mt-0 group"
+        className="font-kulim relative w-full md:w-1/2 mt-14 md:mt-0 group"
         variants={imageVariants}
         initial="hidden"
         animate={controls}
@@ -63,14 +63,14 @@ const HeroSection = () => {
         <img
           src={field}
           alt="Field"
-          className="rounded-3xl shadow-3xl object-cover w-[750px] h-[680px]"
+          className="font-kulim rounded-3xl shadow-3xl object-cover w-[750px] h-[680px]"
         />
       </motion.div>
 
-      
-  </div>
-    
-    
+
+    </div>
+
+
   );
 };
 

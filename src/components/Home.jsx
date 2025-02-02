@@ -5,12 +5,12 @@ import Navbar from './Navbar.jsx'
 import Footer from './Footer.jsx'
 
 export default function Home() {
-  return (
-	<div>
-		<Navbar />
-		<Card/>
-		<Hero/>
-		<Footer/>
-	</div>
-  )
+	return (
+		<div>
+			<Navbar />
+			<Card />
+			<Hero />
+			<Footer />
+		</div>
+	)
 }

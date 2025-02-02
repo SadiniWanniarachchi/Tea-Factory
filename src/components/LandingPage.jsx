@@ -1,20 +1,22 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaHeart, FaStar, FaLeaf, FaMugHot, FaSmile, FaSeedling, FaHandshake } from "react-icons/fa";
-import heroImage from "../assets/teatypes.jpeg";
+import heroImage from "../assets/landingimage.png";
 import product1 from "../assets/blacktea.jpg";
 import product2 from "../assets/herbaltea.jpeg";
 import product3 from "../assets/lemontea.jpeg";
+import newImage from "../assets/teatypes.jpeg";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+
 
 const LandingPage = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-[#f3f6f3] text-gray-800">
+      <div className="bg-[#f3f6f3] text-gray-800 font-kulim">
         {/* Hero Section */}
-        <section className="relative h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${heroImage})` }}>
+        <section className="relative h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${newImage})` }}>
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white px-4 sm:px-10">
             <div className="text-center">
               <motion.h1

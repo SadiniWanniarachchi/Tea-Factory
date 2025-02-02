@@ -3,7 +3,7 @@ import React from 'react';
 
 const ShoppingCart = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6 font-kulim">
       <div className="bg-white rounded-lg shadow-lg flex w-full max-w-5xl">
         {/* Left Section: Shopping Cart Items */}
         <div className="w-2/3 p-6 border-r">

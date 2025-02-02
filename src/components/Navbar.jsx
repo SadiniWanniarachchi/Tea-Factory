@@ -7,42 +7,42 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md font-kulim">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center">
             <img src={logo} alt="HarvestBrew Logo" className="w-12 h-12" />
-            <span className="text-2xl font-bold text-[#21501a] ml-2">HarvestBrew</span>
+            <span className="text-2xl font-bold text-green-900 ml-2">HarvestBrew</span>
           </div>
 
           {/* Desktop Menu */}
-          <ul className="hidden md:flex space-x-10 text-[#21501a] font-medium">
-            <li className="hover:text-gray-600">
+          <ul className="hidden md:flex space-x-10 text-green-900 font-bold text-lg">
+            <li className="hover:text-black">
               <Link to="/">Home</Link>
             </li>
-            <li className="hover:text-gray-600">
+            <li className="hover:text-black">
               <Link to="/AboutUS">About Us</Link>
             </li>
-            <li className="hover:text-gray-600">
+            <li className="hover:text-black">
               <Link to="/ContactUS">Contact Us</Link>
             </li>
-            <li className="hover:text-gray-600">
+            <li className="hover:text-black">
               <Link to="/Shop">Shop</Link>
             </li>
-            
-            
+
+
           </ul>
 
           {/* Desktop Buttons */}
           <div className="hidden md:flex gap-10">
             <Link to="/Login">
-              <button className="w-24 h-10 border border-[#21501a] text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
+              <button className="w-24 h-10 border border-green-900 text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
                 Login
               </button>
             </Link>
             <Link to="/RegistrationForm">
-              <button className="w-24 h-10 bg-[#21501a] text-white font-medium rounded-full hover:bg-gray-600 transition">
+              <button className="w-24 h-10 bg-green-900 text-white font-medium rounded-full hover:bg-gray-600 transition">
                 Sign Up
               </button>
             </Link>
@@ -50,7 +50,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-[#21501a] focus:outline-none"
+            className="md:hidden text-green-900 focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -93,7 +93,7 @@ const Navbar = () => {
             <li className="border-b border-gray-200">
               <Link
                 to="/"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
+                className="block px-4 py-2 text-green-900 hover:text-black horver:underline"
               >
                 Home
               </Link>
@@ -101,7 +101,7 @@ const Navbar = () => {
             <li className="border-b border-gray-200">
               <Link
                 to="/AboutUS"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
+                className="block px-4 py-2 text-green-900 hover:text-black horver:underline"
               >
                 About Us
               </Link>
@@ -109,31 +109,31 @@ const Navbar = () => {
             <li className="border-b border-gray-200">
               <Link
                 to="/ContactUS"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
+                className="block px-4 py-2 text-green-900 hover:text-black horver:underline"
               >
                 Contact Us
               </Link>
             </li>
-            <li className="border-b border-gray-200">
-              
+            <li className="border-b border-[#c2c9b6]">
+
             </li>
-            <li className="border-b border-gray-200">
+            <li className="border-b border-[#c2c9b6]">
               <Link
                 to="/Login"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
+                className="block px-4 py-2 text-green-900 hover:text-black horver:underline"
               >
                 Login
               </Link>
             </li>
-            <li className="border-b border-gray-200">
-              <Link to="/Shop" className="block px-4 py-2 text-[#21501a] hover:bg-gray-100">
+            <li className="border-b border-[#c2c9b6]">
+              <Link to="/Shop" className="block px-4 py-2 text-green-900 hover:bg-[#c2c9b6]">
                 Shop
-             </Link>
+              </Link>
             </li>
             <li>
               <Link
                 to="/RegistrationForm"
-                className="block px-4 py-2 text-[#21501a] hover:bg-gray-100"
+                className="block px-4 py-2 text-green-900 hover:bg-[#c2c9b6]"
               >
                 Sign Up
               </Link>

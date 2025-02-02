@@ -58,8 +58,8 @@ const ShopPage = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-accent text-gray-800">
-        <h1 className="text-4xl font-bold text-center py-10 text-[#21501a]">
+      <div className="min-h-screen bg-accent text-gray-800 font-kulim">
+        <h1 className="text-4xl font-bold text-center py-10 text-green-900">
           Our Tea Collection
         </h1>
 
@@ -74,11 +74,11 @@ const ShopPage = () => {
         {showCartIcon && (
           <div
             onClick={handleCartClick}
-            className="fixed bottom-8 right-8 bg-[#21501a] p-4 rounded-full text-white shadow-lg hover:bg-gray-600 transition cursor-pointer -z-10"
+            className="fixed bottom-8 right-8 bg-green-900 p-4 rounded-full text-white shadow-lg hover:bg-gray-600 transition cursor-pointer -z-10"
           >
             <FaShoppingCart size={28} />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-red-900 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             )}

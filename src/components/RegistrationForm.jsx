@@ -1,39 +1,80 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import backgroundImage from "../assets/teapot.jpg";
 import { FaGoogle, FaApple } from "react-icons/fa";
 
-const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+export default function Register() {
+
+  const navigate = useNavigate();
+
+  const [data, setData] = useState({
+    name: "",
     email: "",
-    password: "",
-    terms: false,
+    password: ""
   });
 
-  const handleChange = (e) => {
-    const { name, type, checked, value } = e.target;
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+  const handleNameChange = (e) => {
+    const value = e.target.value;
+    const onlyLetters = value.replace(/[^A-Za-z\s]/g, ""); // Allow only letters and spaces
+    setData({ ...data, name: onlyLetters });
   };
 
-  const handleSubmit = async (e) => {
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    if (!value.includes('@')) {
+      toast.error("Email must contain '@'");
+    }
+    setData({ ...data, email: value });
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    if (value.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+    }
+    setData({ ...data, password: value });
+  };
+
+  const registerUser = async (e) => {
     e.preventDefault();
-    if (!formData.terms) {
-      alert("You must agree to the terms and conditions.");
+    const { name, email, password } = data;
+
+    if (!name) {
+      toast.error("Name is required and should contain only letters");
       return;
     }
-    try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", formData);
-      alert("Registration successful!");
-      console.log("Registration successful:", response.data);
-    } catch (error) {
-      alert(error.response?.data?.message || "Registration failed. Please try again.");
+
+    if (!email.includes('@')) {
+      toast.error("Enter a valid email containing '@'");
+      return;
     }
+
+    if (!password || password.length < 6) {
+      toast.error("Password is required and should be at least 6 characters long");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/user/user", { name, email, password });
+
+      if (response.data.err) {
+        toast.error(response.data.error);
+      } else {
+        setData({ name: "", email: "", password: "" });
+        toast.success('User registered successfully');
+        navigate('/Login');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong, please try again.");
+    }
+
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-white font-kulim">
       <div className="w-full max-w-5xl flex bg-[#21501a] rounded-lg shadow-2xl overflow-hidden">
         <div
           className="hidden md:flex md:w-1/2 bg-cover bg-center"
@@ -46,18 +87,29 @@ const RegistrationForm = () => {
             Already have an account? <a href="#" className="text-black hover:underline">Log in</a>
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-8">
-            <div className="flex space-x-4">
-              <input name="firstName" type="text" placeholder="First name" onChange={handleChange} className="w-1/2 p-3 rounded-md bg-[#21501a] border border-white focus:ring-2 focus:ring-white" required />
-              <input name="lastName" type="text" placeholder="Last name" onChange={handleChange} className="w-1/2 p-3 rounded-md bg-[#21501a] border border-white focus:ring-2 focus:ring-white" required />
-            </div>
-            <input name="email" type="email" placeholder="Email" onChange={handleChange} className="w-full p-3 rounded-md bg-[#21501a] border border-white focus:ring-2 focus:ring-white" required />
-            <input name="password" type="password" placeholder="Enter your password" onChange={handleChange} className="w-full p-3 rounded-md bg-[#21501a] border border-white focus:ring-2 focus:ring-white" required />
+          <form onSubmit={registerUser} className="mt-6 space-y-8">
 
-            <div className="flex items-center">
-              <input name="terms" type="checkbox" id="terms" onChange={handleChange} className="w-4 h-4 text-black border-black bg-black focus:ring-black" />
-              <label htmlFor="terms" className="ml-2 text-sm text-black">I agree to the Terms & Conditions</label>
-            </div>
+            <input
+              type="text"
+              placeholder="Enter Name"
+              value={data.name}
+              onChange={handleNameChange}
+              className="w-full p-3 rounded-md border border-black" />
+
+            <input
+              type="email"
+              placeholder="Enter Email"
+              value={data.email}
+              onChange={handleEmailChange}
+              className="w-full p-3 rounded-md border border-black" />
+
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={data.password}
+              onChange={handlePasswordChange}
+              className="w-full p-3 rounded-md border border-black" />
+
 
             <button type="submit" className="w-full bg-[#000000] text-white py-3 rounded-md">Create Account</button>
           </form>
@@ -78,4 +130,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+

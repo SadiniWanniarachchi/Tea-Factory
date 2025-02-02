@@ -3,7 +3,7 @@ import teacupImage from '../assets/teacup.jpeg';
 
 const Card = () => {
   return (
-    <div className="font-sans">
+    <div className="font-kulim">
       <div
         className="relative h-[100vh] bg-cover bg-center flex items-center justify-center"
         style={{ backgroundImage: `url(${teacupImage})` }}
@@ -16,7 +16,7 @@ const Card = () => {
           {/* Adjusted padding using px-4 */}
           <p className="text-2xl mb-12">#1 Tea provider in Sri Lanka</p>
           <h1 className="text-6xl font-bold leading-tight mb-16">
-            Welcome to HarvestBrew! <br/>
+            Welcome to HarvestBrew! <br />
             <p className="text-2xl mb-12">New Energy in Every Tea Cup</p>
           </h1>
           <div className="flex justify-center gap-6">
