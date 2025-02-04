@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import axios from "axios"; // Import axios
 import teaBackground from "../assets/field.jpg";
 import toast from 'react-hot-toast';
 
@@ -13,28 +14,25 @@ export default function Login() {
   const navigate = useNavigate(); // Initialize useNavigate
 
   // Function to handle form submission
-  const loginUser = (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
-    const { email, password } = data
-    try {
-      const { data } = await
-      axios.post('http://localhost:5000/user/login', { email, password });
+    const { email, password } = data;
 
-      if (data.error)
-        toast.error(data.error);
-      else {
-        setData({});
-        // If successful, navigate to the landing page
-        navigate("/LandingPage");
+    try {
+      const response = await axios.post('http://localhost:5000/user/login', { email, password });
+
+
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        toast.success("Login successful!");
+        setData({ email: "", password: "" }); // Reset form properly
+        navigate("/LandingPage"); // Redirect on success
       }
     } catch (err) {
-
-
+      toast.error("Something went wrong. Please try again.");
+      console.error("Login error:", err);
     }
-
-
-
-
   };
 
   return (
@@ -53,8 +51,10 @@ export default function Login() {
               id="email"
               type="email"
               placeholder="Enter your email"
-              value={data.email} onchange={(e) => setData({ ...data, email: e.target.value })}
+              value={data.email}
+              onChange={(e) => setData({ ...data, email: e.target.value })} // 
               className="w-full mt-2 px-4 py-3 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+              required
             />
           </div>
           <div>
@@ -65,8 +65,10 @@ export default function Login() {
               id="password"
               type="password"
               placeholder="Enter your password"
-              value={data.password} onchange={(e) => setData({ ...data, password: e.target.value })}
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })} // 
               className="w-full mt-2 px-4 py-3 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+              required
             />
           </div>
           <div className="flex items-center justify-between">
@@ -97,5 +99,4 @@ export default function Login() {
       </div>
     </div>
   );
-};
-
+}
