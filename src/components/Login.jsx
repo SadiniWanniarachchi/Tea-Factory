@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import teaBackground from "../assets/field.jpg";
+import toast from 'react-hot-toast';
 
 export default function Login() {
 
@@ -14,7 +15,26 @@ export default function Login() {
   // Function to handle form submission
   const loginUser = (e) => {
     e.preventDefault();
-    navigate("/LandingPage"); // Navigate to the landing page
+    const { email, password } = data
+    try {
+      const { data } = await
+      axios.post('http://localhost:5000/user/login', { email, password });
+
+      if (data.error)
+        toast.error(data.error);
+      else {
+        setData({});
+        // If successful, navigate to the landing page
+        navigate("/LandingPage");
+      }
+    } catch (err) {
+
+
+    }
+
+
+
+
   };
 
   return (
