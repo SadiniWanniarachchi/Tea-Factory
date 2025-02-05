@@ -1,11 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaHeart, FaStar, FaRegStar } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 const Product = ({ product, addToCart }) => {
-  // Simulating a rating system (replace with dynamic ratings if needed)
-  const rating = product.rating || 4;
-
   return (
     <motion.div
       className="bg-[#f3f6f3] font-kulim border border-gray-200 rounded-lg shadow-sm hover:shadow-md overflow-hidden transition-transform transform hover:-translate-y-2"
@@ -16,27 +13,23 @@ const Product = ({ product, addToCart }) => {
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-48 object-cover font-kulim"
+          className="w-full h-48 object-cover"
         />
       </div>
 
       {/* Product Details */}
-      <div className="p-4 text-center font-kulim">
-        <h3 className="text-xl font-semibold text-[#21501a] mb-2">
-          {product.name}
-        </h3>
-        <p className="text-[#21501a] text-xl font-bold mb-4">{product.price}</p>
-
-        {/* Star Ratings */}
-        <div className="flex justify-center mb-4">
-          {[...Array(5)].map((_, index) =>
-            index < rating ? (
-              <FaStar key={index} className="text-yellow-500" />
-            ) : (
-              <FaRegStar key={index} className="text-gray-400" />
-            )
-          )}
+      <div className="p-4 font-kulim">
+        {/* Product Name & Price in One Row */}
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="text-xl font-semibold text-green-900">{product.name}</h3>
+          <p className="text-green-900 text-xl font-bold">{product.price}</p>
         </div>
+
+        {/* Product Category */}
+        <p className="text-base text-black font-bold mb-2">{product.category}</p>
+
+        {/* Product Description */}
+        <p className="text-black text-sm font-bold">{product.description}</p>
       </div>
 
       {/* Action Buttons */}
@@ -47,7 +40,7 @@ const Product = ({ product, addToCart }) => {
 
         <button
           onClick={addToCart}
-          className="bg-[#21501a] text-white py-2 px-6 rounded-full hover:bg-gray-600 transition"
+          className="bg-green-900 text-white py-2 px-6 rounded-full hover:bg-gray-600 transition"
         >
           Add to Cart
         </button>

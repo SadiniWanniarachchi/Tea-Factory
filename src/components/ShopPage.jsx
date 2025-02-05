@@ -18,12 +18,48 @@ const ShopPage = () => {
 
   // Products Data
   const products = [
-    { id: 1, name: "Oolong Tea", image: oolongTea, price: "$15.99" },
-    { id: 2, name: "Black Tea", image: blackTea, price: "$12.99" },
-    { id: 3, name: "Herbal Tea", image: herbalTea, price: "$18.99" },
-    { id: 4, name: "Lemon Tea", image: lemonTea, price: "$18.99" },
-    { id: 5, name: "Yellow Tea", image: yellowTea, price: "$18.99" },
+    {
+      id: 1,
+      name: "Oolong Tea",
+      category: "Traditional Chinese Tea",
+      image: oolongTea,
+      price: "$15.99",
+      description: "A semi-oxidized tea with a rich, complex flavor and floral aroma.",
+    },
+    {
+      id: 2,
+      name: "Black Tea",
+      category: "Classic Tea",
+      image: blackTea,
+      price: "$12.99",
+      description: "A strong, fully oxidized tea with bold flavors and a deep amber color.",
+    },
+    {
+      id: 3,
+      name: "Herbal Tea",
+      category: "Caffeine-Free Infusion",
+      image: herbalTea,
+      price: "$18.99",
+      description: "A blend of herbs, flowers, and fruits, offering soothing and aromatic flavors.",
+    },
+    {
+      id: 4,
+      name: "Lemon Tea",
+      category: "Flavored Tea",
+      image: lemonTea,
+      price: "$18.99",
+      description: "A refreshing tea infused with citrusy lemon flavor, perfect for relaxation.",
+    },
+    {
+      id: 5,
+      name: "Yellow Tea",
+      category: "Rare & Delicate Tea",
+      image: yellowTea,
+      price: "$18.99",
+      description: "A lightly oxidized tea with a smooth, mellow taste and sweet aroma.",
+    },
   ];
+
 
   // Add to Cart Function
   const addToCart = () => {
