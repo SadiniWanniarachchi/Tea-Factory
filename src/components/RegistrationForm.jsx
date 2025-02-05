@@ -22,6 +22,12 @@ export default function Register() {
     setData({ ...data, name: onlyLetters });
   };
 
+  const handleClick = (event) => {
+    handleEmailChange(event);
+    handlePasswordChange(event);
+  };
+
+
   const handleEmailChange = (e) => {
     const value = e.target.value;
     if (!value.includes('@')) {
@@ -41,6 +47,7 @@ export default function Register() {
   const registerUser = async (e) => {
     e.preventDefault();
     const { name, email, password } = data;
+
 
     if (!name) {
       toast.error("Name is required and should contain only letters");
@@ -100,19 +107,15 @@ export default function Register() {
             <input
               type="email"
               placeholder="Enter Email"
-              value={data.email}
-              onChange={handleEmailChange}
               className="w-full p-3 rounded-md border border-black" />
 
             <input
               type="password"
               placeholder="Enter Password"
-              value={data.password}
-              onChange={handlePasswordChange}
               className="w-full p-3 rounded-md border border-black" />
 
 
-            <button type="submit" className="w-full bg-green-900 text-white py-3 rounded-md">Create Account</button>
+            <button type="submit" onClick={handleClick} className="w-full bg-green-900 text-white py-3 rounded-md">Create Account</button>
           </form>
 
           <div className="mt-6 text-center text-base text-black font-semibold">Or register with</div>
