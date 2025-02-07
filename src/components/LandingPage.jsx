@@ -5,9 +5,11 @@ import heroImage from "../assets/landingimage.png";
 import product1 from "../assets/blacktea.jpg";
 import product2 from "../assets/herbaltea.jpeg";
 import product3 from "../assets/lemontea.jpeg";
-import newImage from "../assets/teatypes.jpeg";
+import newImage from "../assets/cupoftea.png";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
+
 
 
 const LandingPage = () => {
@@ -19,6 +21,8 @@ const LandingPage = () => {
     { text: "Wonderful taste!", icon: <FaMugHot className="text-orange-400 text-4xl" /> },
     { text: "Highly recommended!", icon: <FaSmile className="text-blue-400 text-4xl" /> },
   ];
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -44,7 +48,8 @@ const LandingPage = () => {
               </motion.p>
               <motion.button
                 whileHover={{ scale: 1.1 }}
-                className="bg-green-900 text-white py-3 px-6 rounded-full text-lg shadow-lg hover:bg-[#183d14] transition duration-300"
+                className="bg-green-900 text-white py-3 px-6 rounded-full text-lg shadow-lg transition duration-300"
+                onClick={() => navigate("/Shop")} // Navigates to the Shop page
               >
                 Explore Our Teas <FaArrowRight className="inline ml-2" />
               </motion.button>
@@ -120,13 +125,8 @@ const LandingPage = () => {
                   <h3 className="text-2xl font-semibold text-green-900 mb-2">
                     Product {index + 1}
                   </h3>
-                  <p className="text-gray-600 text-lg mb-4">$18.99</p>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    className="px-6 py-3 bg-green-900 text-white rounded-full shadow-md hover:bg-[#183b12] transition duration-300"
-                  >
-                    Buy Now
-                  </motion.button>
+                  <p className="text-black font-bold text-lg mb-4">$18.99</p>
+
                 </div>
               </motion.div>
             ))}

@@ -22,8 +22,12 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center">
-            <img src={logo} alt="HarvestBrew Logo" className="w-12 h-12" />
-            <span className="text-2xl font-bold text-green-900 ml-2">HarvestBrew</span>
+            <Link to="/LandingPage"> {/* Add Link to navigate to the landing page */}
+              <div className="flex items-center cursor-pointer">
+                <img src={logo} alt="HarvestBrew Logo" className="w-12 h-12" />
+                <span className="text-2xl font-bold text-green-900 ml-2">HarvestBrew</span>
+              </div>
+            </Link>
           </div>
 
           {/* Desktop Menu */}

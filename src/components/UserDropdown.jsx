@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 
 const UserDropdown = ({ user }) => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const navigate = useNavigate(); // Initialize the navigate function
+    const navigate = useNavigate();
+    const dropdownRef = useRef(null); // Create a reference for the dropdown
 
     // Toggle dropdown visibility
     const toggleDropdown = () => {
@@ -13,19 +14,33 @@ const UserDropdown = ({ user }) => {
 
     // Logout function
     const logoutUser = () => {
-        localStorage.removeItem("user"); // Remove user data from local storage
-        localStorage.removeItem("token"); // Remove auth token if stored
-        navigate("/"); // Navigate to Home page after logout
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        navigate("/");
     };
 
     // Navigate to Profile Page
     const navigateToProfile = () => {
-        navigate("/ProfilePage"); // Navigate to the profile page
-        setDropdownOpen(false); // Close the dropdown
+        navigate("/ProfilePage");
+        setDropdownOpen(false);
     };
 
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
             {/* User Profile and Dropdown Toggle */}
             <button
                 onClick={toggleDropdown}
@@ -41,8 +56,8 @@ const UserDropdown = ({ user }) => {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
                     {/* Profile Button */}
                     <button
-                        onClick={navigateToProfile} // Use the navigateToProfile function
-                        className="block w-full text-left px-4 py-2 text-black font-bold hover:bg-gray-100"
+                        onClick={navigateToProfile}
+                        className="block w-full text-left px-4 py-2 text-black font-bold hover:bg-gray-200 rounded-lg "
                     >
                         Profile
                     </button>
@@ -52,7 +67,7 @@ const UserDropdown = ({ user }) => {
                             logoutUser();
                             setDropdownOpen(false);
                         }}
-                        className="block w-full text-left px-4 py-2 text-red-700 font-bold"
+                        className="block w-full text-left px-4 py-2 text-red-700 font-bold hover:bg-gray-200 rounded-lg "
                     >
                         Logout
                     </button>
