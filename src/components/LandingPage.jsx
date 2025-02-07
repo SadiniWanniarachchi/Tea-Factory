@@ -95,7 +95,7 @@ const LandingPage = () => {
         </section>
 
         {/* Product Showcase */}
-        <section className="bg-[#f4faf4] py-16 px-6">
+        <section className="bg-[#f4faf4] py-14 px-6">
           <motion.h2
             className="text-5xl font-bold text-center text-black mb-12"
             animate={{ opacity: [0, 1], y: [50, 0] }}
@@ -105,7 +105,11 @@ const LandingPage = () => {
           </motion.h2>
 
           <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            {[product1, product2, product3].map((product, index) => (
+            {[
+              { name: "Black Tea", image: product1, price: "$8.99" },
+              { name: "Herbal Tea", image: product2, price: "$12.00" },
+              { name: "Lemon Tea", image: product3, price: "$15.00" }
+            ].map((product, index) => (
               <motion.div
                 key={index}
                 className="bg-white backdrop-blur-lg shadow-lg rounded-2xl overflow-hidden transition duration-300 hover:shadow-2xl"
@@ -113,8 +117,8 @@ const LandingPage = () => {
               >
                 <div className="relative group">
                   <img
-                    src={product}
-                    alt={`Product ${index + 1}`}
+                    src={product.image}
+                    alt={product.name}
                     className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   {/* Overlay Effect */}
@@ -123,14 +127,14 @@ const LandingPage = () => {
 
                 <div className="p-6 text-center">
                   <h3 className="text-2xl font-semibold text-green-900 mb-2">
-                    Product {index + 1}
+                    {product.name}
                   </h3>
-                  <p className="text-black font-bold text-lg mb-4">$18.99</p>
-
+                  <p className="text-black font-bold text-lg mb-4">{product.price}</p>
                 </div>
               </motion.div>
             ))}
           </div>
+
         </section>
 
 

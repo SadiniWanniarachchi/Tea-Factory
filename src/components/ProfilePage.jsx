@@ -1,57 +1,94 @@
-import React, { useState } from "react";
-import { FaUser, FaEdit, FaHistory, FaHeart, FaCog } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FaUser, FaEdit, FaHistory, FaCalendarAlt, FaTrash } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import backgroundImage from "../assets/landingimage.png";
+
+
 
 const ProfilePage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [user, setUser] = useState({
-        name: "John Doe",
-        email: "john.doe@example.com",
-        address: "123 Tea Lane, Green Valley, Earth",
-        phone: "+123 456 7890",
+        name: "",
+        email: "",
+        password: "********",
     });
 
-    const orders = [
-        { id: 1, date: "2023-10-01", total: "$35.98", status: "Delivered" },
-        { id: 2, date: "2023-09-25", total: "$18.99", status: "Shipped" },
-        { id: 3, date: "2023-09-20", total: "$50.97", status: "Processing" },
-    ];
+    const userData = JSON.parse(localStorage.getItem("user"));
+
+    useEffect(() => {
+        if (userData && userData.id) {
+            const fetchUserDetails = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:5000/api/user/user/${userData.id}`);
+                    setUser({
+                        name: response.data.name,
+                        email: response.data.email,
+                        password: "********",
+                    });
+                } catch (error) {
+                    console.error("Error fetching user details:", error);
+                }
+            };
+            fetchUserDetails();
+        }
+    }, [userData]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser({ ...user, [name]: value });
     };
 
-    const handleSave = () => {
-        setIsEditing(false);
-        // Here you would typically send the updated user data to your backend
+    const handleSave = async () => {
+        try {
+            // Update user details in the backend
+            await axios.put(`http://localhost:5000/api/user/user/${userData.id}`, user);
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Error saving user details:", error);
+        }
     };
+
+    const handleDelete = async () => {
+        try {
+            // Delete the user account from the backend
+            await axios.delete(`http://localhost:5000/api/user/user/${userData.id}`);
+            localStorage.removeItem("user");
+            window.location.href = "/"; // Redirect to homepage or login page after deletion
+        } catch (error) {
+            console.error("Error deleting user account:", error);
+        }
+    };
+
+    const [orders] = useState([
+        { id: 1, date: "2023-10-01", total: "$35.98", status: "Delivered" },
+        { id: 2, date: "2023-09-25", total: "$18.99", status: "Shipped" },
+        { id: 3, date: "2023-09-20", total: "$50.97", status: "Processing" },
+    ]);
 
     return (
         <>
             <Navbar />
             <div className="min-h-screen bg-[#f3f6f3] text-gray-800 font-kulim">
-                {/* Profile Header */}
-                <section className="relative h-64 bg-cover bg-center bg-no-repeat">
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white px-4 sm:px-10">
-                        <div className="text-center">
-                            <motion.h1
-                                className="text-6xl font-extrabold mb-4 text-shadow-md"
-                                animate={{ opacity: [0, 1], y: [50, 0] }}
-                                transition={{ duration: 1 }}
-                            >
-                                My Profile
-                            </motion.h1>
-                        </div>
+                <section
+                    className="relative h-64 bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url(${backgroundImage})` }}
+                >
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white">
+                        <motion.h1
+                            className="text-6xl font-extrabold mb-4 text-shadow-md"
+                            animate={{ opacity: [0, 1], y: [50, 0] }}
+                            transition={{ duration: 1 }}
+                        >
+                            My Profile
+                        </motion.h1>
                     </div>
                 </section>
 
-                {/* Profile Content */}
                 <section className="max-w-6xl mx-auto py-20 px-4">
                     <div className="grid md:grid-cols-3 gap-8">
-                        {/* User Info Section */}
                         <div className="md:col-span-2 bg-white p-8 rounded-lg shadow-lg">
                             <div className="flex items-center justify-between mb-6">
                                 <h2 className="text-3xl font-bold text-green-900 flex items-center">
@@ -89,21 +126,11 @@ const ProfilePage = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-gray-700">Address</label>
+                                            <label className="block text-gray-700">Password</label>
                                             <input
-                                                type="text"
-                                                name="address"
-                                                value={user.address}
-                                                onChange={handleInputChange}
-                                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-gray-700">Phone</label>
-                                            <input
-                                                type="text"
-                                                name="phone"
-                                                value={user.phone}
+                                                type="password"
+                                                name="password"
+                                                value={user.password}
                                                 onChange={handleInputChange}
                                                 className="w-full p-2 border border-gray-300 rounded-lg"
                                             />
@@ -111,7 +138,7 @@ const ProfilePage = () => {
                                         <button
                                             type="button"
                                             onClick={handleSave}
-                                            className="bg-green-900 text-white py-2 px-4 rounded-full hover:bg-[#183d14] transition duration-300"
+                                            className="bg-green-900 text-white py-2 px-4 rounded-full transition duration-300"
                                         >
                                             Save Changes
                                         </button>
@@ -121,32 +148,24 @@ const ProfilePage = () => {
                                 <div className="space-y-4">
                                     <p><strong>Name:</strong> {user.name}</p>
                                     <p><strong>Email:</strong> {user.email}</p>
-                                    <p><strong>Address:</strong> {user.address}</p>
-                                    <p><strong>Phone:</strong> {user.phone}</p>
+                                    <p><strong>Password:</strong> ********</p>
                                 </div>
                             )}
                         </div>
 
-                        {/* Sidebar */}
+                        {/* Replacing the Favorites section with Upcoming Events */}
                         <div className="bg-white p-8 rounded-lg shadow-lg">
                             <h2 className="text-3xl font-bold text-green-900 mb-6 flex items-center">
-                                <FaCog className="mr-2" /> Settings
+                                <FaCalendarAlt className="mr-2" /> Upcoming Events
                             </h2>
                             <ul className="space-y-4">
-                                <li className="flex items-center text-gray-700 hover:text-green-900 transition duration-300">
-                                    <FaHistory className="mr-2" /> Order History
-                                </li>
-                                <li className="flex items-center text-gray-700 hover:text-green-900 transition duration-300">
-                                    <FaHeart className="mr-2" /> Favorites
-                                </li>
-                                <li className="flex items-center text-gray-700 hover:text-green-900 transition duration-300">
-                                    <FaCog className="mr-2" /> Account Settings
-                                </li>
+                                <li className="text-gray-700">New Collection Launch - 2025-03-01</li>
+                                <li className="text-gray-700">Exclusive Webinar - 2025-03-10</li>
+                                <li className="text-gray-700">Seasonal Sale - 2025-04-01</li>
                             </ul>
                         </div>
                     </div>
 
-                    {/* Order History Section */}
                     <div className="mt-12 bg-white p-8 rounded-lg shadow-lg">
                         <h2 className="text-3xl font-bold text-green-900 mb-6 flex items-center">
                             <FaHistory className="mr-2" /> Order History
@@ -173,6 +192,17 @@ const ProfilePage = () => {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    {/* Delete Account Button */}
+                    <div className="mt-8 text-center">
+                        <button
+                            onClick={handleDelete}
+                            className="bg-red-900 text-white py-2 px-8 rounded-full transition duration-300 flex items-center justify-center"
+                        >
+                            <FaTrash className="mr-2" /> {/* Adjusted margin */}
+                            Delete Account
+                        </button>
                     </div>
                 </section>
             </div>
