@@ -1,88 +1,149 @@
-import React from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaTrash, FaArrowLeft } from "react-icons/fa";
 
 
 const ShoppingCart = () => {
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([
+    // Example cart items (replace with actual cart state management)
+    {
+      id: 1,
+      name: "Oolong Tea",
+      image: "oolongtea.jpeg",
+      price: "$15.99",
+      quantity: 2,
+    },
+    {
+      id: 2,
+      name: "Black Tea",
+      image: "blacktea.jpg",
+      price: "$12.99",
+      quantity: 1,
+    },
+  ]);
+
+  // Handle quantity change
+  const handleQuantityChange = (id, newQuantity) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
+  // Remove item from cart
+  const handleRemoveItem = (id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  // Calculate total price
+  const totalPrice = cartItems.reduce(
+    (total, item) =>
+      total + parseFloat(item.price.replace("$", "")) * item.quantity,
+    0
+  );
+
+  // Handle checkout
+  const handleCheckout = () => {
+    alert("Proceeding to checkout!");
+    // Add checkout logic here (e.g., redirect to payment page)
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6 font-kulim">
-      <div className="bg-white rounded-lg shadow-lg flex w-full max-w-5xl">
-        {/* Left Section: Shopping Cart Items */}
-        <div className="w-2/3 p-6 border-r">
-          <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
-          <div className="flex justify-between items-center mb-6">
-            <span className="text-gray-500">3 items</span>
-          </div>
+    <>
 
-          {/* Item List */}
-          {[1, 2, 3].map((item, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between mb-6 border-b pb-4"
-            >
-              <div className="flex items-center">
-                <img
-                  src={`https://via.placeholder.com/60`}
-                  alt="T-shirt"
-                  className="w-16 h-16 rounded mr-4"
-                />
-                <div>
-                  <h2 className="text-lg font-semibold">Shirt</h2>
-                  <p className="text-gray-500">Cotton T-shirt</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <button className="w-8 h-8 text-xl font-bold bg-gray-200 rounded">-</button>
-                <span className="text-lg">1</span>
-                <button className="w-8 h-8 text-xl font-bold bg-gray-200 rounded">+</button>
-              </div>
-              <p className="text-lg font-semibold">€44.00</p>
-              <button className="text-gray-500 hover:text-red-500">×</button>
-            </div>
-          ))}
-
-          {/* Back to Shop */}
-          <button className="text-gray-600 hover:underline flex items-center">
-            ← Back to shop
+      <div className="min-h-screen bg-accent text-gray-800 font-kulim">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          {/* Back to Shop Button */}
+          <button
+            onClick={() => navigate("/shop")}
+            className="fixed top-8 left-8 bg-green-900 text-white p-3 rounded-full shadow-lg transition duration-300"
+          >
+            <FaArrowLeft size={20} />
           </button>
-        </div>
+          {/* Cart Title */}
+          <h1 className="text-4xl font-bold text-center py-7 text-green-900">
+            My Shopping Cart
+          </h1>
 
-        {/* Right Section: Summary */}
-        <div className="w-1/3 p-6 bg-gray-100">
-          <h2 className="text-xl font-bold mb-6">Summary</h2>
+          {/* Cart Items */}
+          <div className="bg-[#f2f6f1] rounded-lg shadow-md p-14">
+            {cartItems.length === 0 ? (
+              <p className="text-center text-gray-600">Your cart is empty.</p>
+            ) : (
+              <>
+                {cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-col sm:flex-row items-center justify-between border-b border-gray-200 py-4"
+                  >
+                    {/* Product Image and Name */}
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                      <div>
+                        <h2 className="text-xl font-bold">{item.name}</h2>
+                        <p className="text-lg text-black">{item.price}</p>
+                      </div>
+                    </div>
 
-          <div className="flex justify-between items-center mb-4">
-            <span>ITEMS 3</span>
-            <span>€132.00</span>
+                    {/* Quantity Controls */}
+                    <div className="flex items-center space-x-4 mt-4 sm:mt-0">
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(
+                            item.id,
+                            Math.max(1, item.quantity - 1)
+                          )
+                        }
+                        className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(item.id, item.quantity + 1)
+                        }
+                        className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    {/* Remove Button */}
+                    <button
+                      onClick={() => handleRemoveItem(item.id)}
+                      className="text-red-900 mt-4 sm:mt-0 text-xl"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                ))}
+
+                {/* Total Price and Checkout Button */}
+                <div className="mt-16 text-right">
+                  <h3 className="text-xl font-semibold">
+                    Total: ${totalPrice.toFixed(2)}
+                  </h3>
+                  <button
+                    onClick={handleCheckout}
+                    className="mt-4 px-6 py-2 bg-green-900 text-white rounded hover:bg-green-700 transition"
+                  >
+                    Proceed to Checkout
+                  </button>
+                </div>
+              </>
+            )}
           </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-500 mb-2">SHIPPING</label>
-            <select className="w-full p-2 border rounded">
-              <option>Standard-Delivery- €5.00</option>
-              <option>Express-Delivery- €10.00</option>
-            </select>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-500 mb-2">GIVE CODE</label>
-            <div className="flex items-center">
-              <input
-                type="text"
-                placeholder="Enter your code"
-                className="w-full p-2 border rounded-l"
-              />
-              <button className="p-2 bg-black text-white rounded-r">→</button>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center mb-6">
-            <span>TOTAL PRICE</span>
-            <span className="text-lg font-semibold">€137.00</span>
-          </div>
-
-          <button className="w-full bg-black text-white py-3 rounded">CHECKOUT</button>
         </div>
       </div>
-    </div>
+
+    </>
   );
 };
 

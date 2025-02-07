@@ -47,9 +47,7 @@ const HeroSection = () => {
           "From leaf to cup, experience the art of tea-making. Discover premium blends, crafted with care in every sip. Welcome to the heart of tradition and taste."
         </p>
         <div className="mt-16 flex space-x-20 font-kulim">
-          <button className="font-kulim w-24 h-10 bg-green-900 text-white font-medium rounded-full transition">
-            Shop Now
-          </button>
+
         </div>
       </motion.div>
 

@@ -60,7 +60,6 @@ const ShopPage = () => {
     },
   ];
 
-
   // Add to Cart Function
   const addToCart = () => {
     setCartCount(cartCount + 1);
@@ -86,7 +85,7 @@ const ShopPage = () => {
     };
   }, []);
 
-  // Handle Cart Icon Click
+  // Handle Cart Icon Click - Navigate to ShoppingCart page
   const handleCartClick = () => {
     navigate("/shoppingcart");
   };
@@ -110,7 +109,7 @@ const ShopPage = () => {
         {showCartIcon && (
           <div
             onClick={handleCartClick}
-            className="fixed bottom-8 right-8 bg-green-900 p-4 rounded-full text-white shadow-lg hover:bg-gray-600 transition cursor-pointer -z-10"
+            className="fixed bottom-8 right-8 bg-green-900 p-4 rounded-full text-white shadow-lg hover:bg-gray-600 transition cursor-pointer"
           >
             <FaShoppingCart size={28} />
             {cartCount > 0 && (

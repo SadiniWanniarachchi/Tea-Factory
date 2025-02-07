@@ -19,21 +19,45 @@ export default function Login() {
     const { email, password } = data;
 
     try {
-      const response = await axios.post('http://localhost:5000/api/user/login', { email, password });
+      const response = await axios.post("http://localhost:5000/api/user/login", {
+        email,
+        password,
+      });
 
+      console.log(response);
 
       if (response.data.error) {
         toast.error(response.data.error);
       } else {
         toast.success("Login successful!");
-        setData({ email: "", password: "" }); // Reset form properly
-        navigate("/LandingPage"); // Redirect on success
+        setData({ email: "", password: "" }); // Reset form
+
+        // Extract user details
+        const userData = {
+          id: response.data._id,
+          name: response.data.name,
+          email: response.data.email,
+          role: response.data.role,
+          expiresAt: new Date().getTime() + 60 * 60 * 1000, //  Expires in 1 hour
+        };
+
+        // Store user data in localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Redirect based on user role
+        if (userData.role === "admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/LandingPage");
+        }
       }
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
       console.error("Login error:", err);
     }
   };
+
+
 
   return (
     <div
@@ -99,4 +123,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+
+};
+

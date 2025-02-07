@@ -1,10 +1,20 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import UserDropdown from "./UserDropdown";
 
 const Navbar = () => {
   // State to toggle mobile menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const logoutUser = () => {
+    localStorage.removeItem("user"); // Remove user data
+    navigate("/Login"); // Redirect to login page
+  };
+
+
 
   return (
     <nav className="bg-white shadow-md font-kulim">
@@ -34,19 +44,30 @@ const Navbar = () => {
 
           </ul>
 
-          {/* Desktop Buttons */}
-          <div className="hidden md:flex gap-10">
-            <Link to="/Login">
-              <button className="w-24 h-10 border border-green-900 text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
-                Login
-              </button>
-            </Link>
-            <Link to="/RegistrationForm">
-              <button className="w-24 h-10 bg-green-900 text-white font-medium rounded-full hover:bg-gray-600 transition">
-                Sign Up
-              </button>
-            </Link>
-          </div>
+          {/* Desktop Buttons change with user login - user eke data tynwa nm profile eka pennaw, 1ni () eka thule tyna eka pennawa naththm : eken else eka pennawa*/}
+
+
+          {user ? (
+            <UserDropdown user={user} logoutUser={logoutUser} />
+          )
+            : (<div className="hidden md:flex gap-10">
+
+
+              <Link to="/Login">
+                <button className="w-24 h-10 border border-green-900 text-[#21501a] font-bold rounded-full hover:bg-gray-600 hover:border-gray-600 hover:text-white transition">
+                  Login
+                </button>
+              </Link>
+              <Link to="/RegistrationForm">
+                <button className="w-24 h-10 bg-green-900 text-white font-medium rounded-full hover:bg-gray-600 transition">
+                  Sign Up
+                </button>
+              </Link>
+            </div>)}
+
+
+
+
 
           {/* Mobile Menu Button */}
           <button

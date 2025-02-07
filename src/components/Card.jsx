@@ -1,7 +1,12 @@
 import React from 'react';
 import teacupImage from '../assets/teacup.jpeg';
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+
 
 const Card = () => {
+
+  const navigate = useNavigate(); // Initialize navigate function
+
   return (
     <div className="font-kulim">
       <div
@@ -21,10 +26,17 @@ const Card = () => {
           </h1>
           <div className="flex justify-center gap-6">
             {/* Adjusted gap between buttons */}
-            <button className="px-6 py-3 border border-white rounded-full hover:bg-white hover:text-black transition">
+            <button
+              onClick={() => navigate("/ContactUS")}
+              className="px-6 py-3 border border-white rounded-full hover:bg-white hover:text-black transition"
+            >
               Get in touch
             </button>
-            <button className="px-6 py-3 border border-white rounded-full hover:bg-white hover:text-black transition">
+
+            <button
+              onClick={() => navigate("/AboutUS")}
+              className="px-6 py-3 border border-white rounded-full hover:bg-white hover:text-black transition"
+            >
               Our services
             </button>
           </div>

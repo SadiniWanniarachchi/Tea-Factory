@@ -13,6 +13,8 @@ import ShopPage from "./components/ShopPage";
 import ShoppingCart from './components/ShoppingCart';
 import LandingPage from "./components/LandingPage";
 import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./components/protectedRoute";
+import ProfilePage from "./components/ProfilePage";
 
 const App = () => {
   return (
@@ -29,10 +31,20 @@ const App = () => {
         <Route path="/ContactUs" element={<ContactUs />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/ShoppingCart" element={<ShoppingCart />} />
-        <Route path="/LandingPage" element={<LandingPage />} />
+        <Route path="/LandingPage" element={<ProtectedRoute allowedRoles={["user"]}>
+          <LandingPage />
+        </ProtectedRoute>} />
 
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/ProfilePage" element={<ProfilePage />} />
       </Routes>
-
 
     </BrowserRouter>
   );
