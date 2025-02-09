@@ -86,8 +86,8 @@ const ShoppingCart = () => {
                         className="w-16 h-16 object-cover rounded"
                       />
                       <div>
-                        <h2 className="text-xl font-bold">{item.name}</h2>
-                        <p className="text-lg text-black">{item.price}</p>
+                        <h2 className="text-lg font-semibold">{item.name}</h2>
+                        <p className="text-sm text-gray-600">{item.price}</p>
                       </div>
                     </div>
 

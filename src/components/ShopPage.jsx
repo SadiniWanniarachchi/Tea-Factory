@@ -60,11 +60,31 @@ const ShopPage = () => {
     },
   ];
 
-  // Add to Cart Function
-  const addToCart = () => {
-    setCartCount(cartCount + 1);
+  // ShopPage.jsx
+  const addToCart = async (product) => {
+    try {
+      await axios.post("http://localhost:5000/api/cart", {
+        productId: product.id.toString(),
+        name: product.name,
+        image: product.image,
+        price: product.price
+      });
+      setCartCount(prev => prev + 1);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
+  // In the Product component rendering:
+  {
+    products.map((product) => (
+      <Product
+        key={product.id}
+        product={product}
+        addToCart={() => addToCart(product)}
+      />
+    ))
+  }
   // Intersection Observer for Floating Cart Icon
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -85,9 +105,9 @@ const ShopPage = () => {
     };
   }, []);
 
-  // Handle Cart Icon Click - Navigate to ShoppingCart page
   const handleCartClick = () => {
-    navigate("/shoppingcart");
+    console.log("Cart icon clicked"); // This will log in the console when the icon is clicked
+    navigate("/shoppingcart"); // Ensure this is the correct path for your cart page
   };
 
   return (
@@ -109,7 +129,7 @@ const ShopPage = () => {
         {showCartIcon && (
           <div
             onClick={handleCartClick}
-            className="fixed bottom-8 right-8 bg-green-900 p-4 rounded-full text-white shadow-lg hover:bg-gray-600 transition cursor-pointer"
+            className="fixed top-28 right-8 bg-green-900 p-4 rounded-full text-white shadow-lg hover:bg-gray-600 transition cursor-pointer z-50"
           >
             <FaShoppingCart size={28} />
             {cartCount > 0 && (
@@ -119,8 +139,11 @@ const ShopPage = () => {
             )}
           </div>
         )}
+
       </div>
-      <Footer ref={footerRef} />
+
+      <Footer />
+
     </>
   );
 };

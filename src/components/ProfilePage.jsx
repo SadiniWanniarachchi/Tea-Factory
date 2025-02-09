@@ -10,6 +10,8 @@ import backgroundImage from "../assets/landingimage.png";
 
 const ProfilePage = () => {
     const [isEditing, setIsEditing] = useState(false);
+    const [passwordChanged, setPasswordChanged] = useState(false);
+
     const [user, setUser] = useState({
         name: "",
         email: "",
@@ -17,6 +19,7 @@ const ProfilePage = () => {
     });
 
     const userData = JSON.parse(localStorage.getItem("user"));
+    const userId = userData._id;
 
     useEffect(() => {
         if (userData && userData.id) {
@@ -34,7 +37,7 @@ const ProfilePage = () => {
             };
             fetchUserDetails();
         }
-    }, [userData]);
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -43,20 +46,28 @@ const ProfilePage = () => {
 
     const handleSave = async () => {
         try {
-            // Update user details in the backend
-            await axios.put(`http://localhost:5000/api/user/user/${userData.id}`, user);
+            // Create payload without password if unchanged
+            const payload = {
+                name: user.name,
+                email: user.email,
+                // Only include password if it's changed (you'll need additional state for this)
+                ...(user.password !== "********" && { password: user.password })
+            };
+
+            await axios.put(`http://localhost:5000/api/user/${userData.id}`, payload);
             setIsEditing(false);
         } catch (error) {
             console.error("Error saving user details:", error);
         }
     };
 
+
     const handleDelete = async () => {
         try {
             // Delete the user account from the backend
-            await axios.delete(`http://localhost:5000/api/user/user/${userData.id}`);
+            await axios.delete(`http://localhost:5000/api/user/${userData.id}`);
             localStorage.removeItem("user");
-            window.location.href = "/"; // Redirect to homepage or login page after deletion
+            window.location.href = "/Login"; // Redirect to homepage or login page after deletion
         } catch (error) {
             console.error("Error deleting user account:", error);
         }
@@ -129,10 +140,12 @@ const ProfilePage = () => {
                                             <label className="block text-gray-700">Password</label>
                                             <input
                                                 type="password"
-                                                name="password"
-                                                value={user.password}
-                                                onChange={handleInputChange}
-                                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                                placeholder="New Password"
+                                                value={passwordChanged ? user.password : ""}
+                                                onChange={(e) => {
+                                                    setUser({ ...user, password: e.target.value });
+                                                    setPasswordChanged(true);
+                                                }}
                                             />
                                         </div>
                                         <button
