@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaUser, FaEdit, FaHistory, FaCalendarAlt, FaTrash } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -8,9 +9,12 @@ import backgroundImage from "../assets/landingimage.png";
 
 
 
+
+
 const ProfilePage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [passwordChanged, setPasswordChanged] = useState(false);
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         name: "",
@@ -56,6 +60,8 @@ const ProfilePage = () => {
 
             await axios.put(`http://localhost:5000/api/user/${userData.id}`, payload);
             setIsEditing(false);
+            navigate("../Login");
+
         } catch (error) {
             console.error("Error saving user details:", error);
         }
