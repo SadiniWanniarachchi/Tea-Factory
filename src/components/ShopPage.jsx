@@ -17,59 +17,30 @@ const ShopPage = () => {
   const footerRef = useRef(null);
   const navigate = useNavigate();
 
-  // Products Data
-  const products = [
-    {
-      id: 1,
-      name: "Oolong Tea",
-      category: "Traditional Chinese Tea",
-      image: oolongTea,
-      price: "$15.99",
-      description: "A semi-oxidized tea with a rich, complex flavor and floral aroma.",
-    },
-    {
-      id: 2,
-      name: "Black Tea",
-      category: "Classic Tea",
-      image: blackTea,
-      price: "$12.99",
-      description: "A strong, fully oxidized tea with bold flavors and a deep amber color.",
-    },
-    {
-      id: 3,
-      name: "Herbal Tea",
-      category: "Caffeine-Free Infusion",
-      image: herbalTea,
-      price: "$18.99",
-      description: "A blend of herbs, flowers, and fruits, offering soothing and aromatic flavors.",
-    },
-    {
-      id: 4,
-      name: "Lemon Tea",
-      category: "Flavored Tea",
-      image: lemonTea,
-      price: "$18.99",
-      description: "A refreshing tea infused with citrusy lemon flavor, perfect for relaxation.",
-    },
-    {
-      id: 5,
-      name: "Yellow Tea",
-      category: "Rare & Delicate Tea",
-      image: yellowTea,
-      price: "$18.99",
-      description: "A lightly oxidized tea with a smooth, mellow taste and sweet aroma.",
-    },
-  ];
+  const [products, setProducts] = useState([]);
 
-  // ShopPage.jsx
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/Product");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+
   const addToCart = async (product) => {
     console.log("Adding to cart:", product);
     try {
       await axios.post("http://localhost:5000/api/cart", {
-        productId: product.id,
+        productId: product._id,
         name: product.name,
         image: product.image,
-        price: product.price
+        price: `$${parseFloat(product.price).toFixed(2)}`, // Ensures 2 decimal places
+
       });
       setCartCount(prev => prev + 1);
     } catch (error) {
@@ -113,7 +84,7 @@ const ShopPage = () => {
 
         {/* Product Grid */}
         <div className="max-w-6xl mx-auto px-4 py-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          
+
           {products.map((product) => (
             <motion.div
               className="bg-[#f3f6f3] font-kulim border border-gray-200 rounded-lg shadow-sm hover:shadow-md overflow-hidden transition-transform transform hover:-translate-y-2"
@@ -134,7 +105,10 @@ const ShopPage = () => {
                 {/* Product Name & Price in One Row */}
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="text-xl font-semibold text-green-900">{product.name}</h3>
-                  <p className="text-green-900 text-xl font-bold">{product.price}</p>
+                  <p className="text-green-900 text-xl font-bold">
+                    ${parseFloat(product.price).toFixed(2)}
+                  </p>
+
                 </div>
 
                 {/* Product Category */}
