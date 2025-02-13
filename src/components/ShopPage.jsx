@@ -3,11 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import oolongTea from "../assets/oolongtea.jpeg";
-import blackTea from "../assets/blacktea.jpg";
-import herbalTea from "../assets/herbaltea.jpeg";
-import lemonTea from "../assets/lemontea.jpeg";
-import yellowTea from "../assets/yellowtea.jpeg";
 import axios from "axios";
 import { motion } from "framer-motion";
 
@@ -19,6 +14,7 @@ const ShopPage = () => {
 
   const [products, setProducts] = useState([]);
 
+  // Fetching products from backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -31,23 +27,29 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
+  // Check if the user is logged in (check for a token or similar)
+  const isLoggedIn = localStorage.getItem("token"); // Adjust this based on your app's auth flow
 
   const addToCart = async (product) => {
+    if (!isLoggedIn) {
+      alert("You must be logged in to add products to the cart.");
+      navigate("/login"); // Redirect to login page if not logged in
+      return;
+    }
+
     console.log("Adding to cart:", product);
     try {
       await axios.post("http://localhost:5000/api/cart", {
         productId: product._id,
         name: product.name,
         image: product.image,
-        price: `$${parseFloat(product.price).toFixed(2)}`, // Ensures 2 decimal places
-
+        price: `$${parseFloat(product.price).toFixed(2)}`,
       });
       setCartCount(prev => prev + 1);
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
   };
-
 
   // Intersection Observer for Floating Cart Icon
   useEffect(() => {
@@ -70,8 +72,8 @@ const ShopPage = () => {
   }, []);
 
   const handleCartClick = () => {
-    console.log("Cart icon clicked"); // This will log in the console when the icon is clicked
-    navigate("/shoppingcart"); // Ensure this is the correct path for your cart page
+    console.log("Cart icon clicked");
+    navigate("/shoppingcart");
   };
 
   return (
@@ -84,7 +86,6 @@ const ShopPage = () => {
 
         {/* Product Grid */}
         <div className="max-w-6xl mx-auto px-4 py-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-
           {products.map((product) => (
             <motion.div
               className="bg-[#f3f6f3] font-kulim border border-gray-200 rounded-lg shadow-sm hover:shadow-md overflow-hidden transition-transform transform hover:-translate-y-2"
@@ -102,19 +103,13 @@ const ShopPage = () => {
 
               {/* Product Details */}
               <div className="p-4 font-kulim">
-                {/* Product Name & Price in One Row */}
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="text-xl font-semibold text-green-900">{product.name}</h3>
                   <p className="text-green-900 text-xl font-bold">
                     ${parseFloat(product.price).toFixed(2)}
                   </p>
-
                 </div>
-
-                {/* Product Category */}
                 <p className="text-base text-black font-bold mb-2">{product.category}</p>
-
-                {/* Product Description */}
                 <p className="text-black text-sm font-bold">{product.description}</p>
               </div>
 
@@ -133,7 +128,6 @@ const ShopPage = () => {
               </div>
             </motion.div>
           ))}
-
         </div>
 
         {/* Floating Cart Icon */}
@@ -150,11 +144,9 @@ const ShopPage = () => {
             )}
           </div>
         )}
-
       </div>
 
       <Footer />
-
     </>
   );
 };
