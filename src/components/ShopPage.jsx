@@ -27,8 +27,6 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
-  // Check if the user is logged in (check for a token or similar)
-  const isLoggedIn = localStorage.getItem("token"); // Adjust this based on your app's auth flow
 
   const addToCart = async (product) => {
     if (!isLoggedIn) {
