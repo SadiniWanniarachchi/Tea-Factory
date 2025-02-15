@@ -7,10 +7,6 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import backgroundImage from "../assets/landingimage.png";
 
-
-
-
-
 const ProfilePage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [passwordChanged, setPasswordChanged] = useState(false);
@@ -19,7 +15,13 @@ const ProfilePage = () => {
     const [user, setUser] = useState({
         name: "",
         email: "",
-        password: "********",
+        password: "",
+    });
+
+    const [errors, setErrors] = useState({
+        name: "",
+        email: "",
+        password: "",
     });
 
     const userData = JSON.parse(localStorage.getItem("user"));
@@ -33,7 +35,7 @@ const ProfilePage = () => {
                     setUser({
                         name: response.data.name,
                         email: response.data.email,
-                        password: "********",
+                        password: "",
                     });
                 } catch (error) {
                     console.error("Error fetching user details:", error);
@@ -45,28 +47,66 @@ const ProfilePage = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUser({ ...user, [name]: value });
+        setUser({ ...user, [name]: value }); // Corrected syntax
+        // Clear errors when the user starts typing
+        setErrors({ ...errors, [name]: "" });
+    };
+
+    const validateForm = () => {
+        const newErrors = { name: "", email: "", password: "" };
+        let isValid = true;
+
+        // Name validation
+        if (!user.name.trim()) {
+            newErrors.name = "Name is required";
+            isValid = false;
+        }
+
+        // Email validation
+        if (!user.email.trim()) {
+            newErrors.email = "Email is required";
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(user.email)) {
+            newErrors.email = "Email is invalid";
+            isValid = false;
+        }
+
+        // Password validation (only if password is being changed)
+        if (passwordChanged && !user.password.trim()) {
+            newErrors.password = "Password is required";
+            isValid = false;
+        } else if (passwordChanged && user.password.length < 6) {
+            newErrors.password = "Password must be at least 6 characters";
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
     };
 
     const handleSave = async () => {
+        if (!validateForm()) {
+            return; // Stop if validation fails
+        }
+
         try {
             // Create payload without password if unchanged
             const payload = {
                 name: user.name,
                 email: user.email,
-                // Only include password if it's changed (you'll need additional state for this)
-                ...(user.password !== "********" && { password: user.password })
+                // Only include password if it's changed and not empty
+                ...(user.password !== "" && { password: user.password }),
             };
 
-            await axios.put(`http://localhost:5000/api/user/${userData.id}`, payload);
+            console.log(payload);
+
+            await axios.put(`http://localhost:5000/api/user/user/${userData.id}`, payload);
             setIsEditing(false);
             navigate("../Login");
-
         } catch (error) {
             console.error("Error saving user details:", error);
         }
     };
-
 
     const handleDelete = async () => {
         try {
@@ -122,6 +162,7 @@ const ProfilePage = () => {
                             {isEditing ? (
                                 <form>
                                     <div className="space-y-4">
+                                        {/* Name Field */}
                                         <div>
                                             <label className="block text-gray-700">Name</label>
                                             <input
@@ -129,9 +170,12 @@ const ProfilePage = () => {
                                                 name="name"
                                                 value={user.name}
                                                 onChange={handleInputChange}
-                                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                                className={`w-full p-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-lg`}
                                             />
+                                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                                         </div>
+
+                                        {/* Email Field */}
                                         <div>
                                             <label className="block text-gray-700">Email</label>
                                             <input
@@ -139,9 +183,12 @@ const ProfilePage = () => {
                                                 name="email"
                                                 value={user.email}
                                                 onChange={handleInputChange}
-                                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                                className={`w-full p-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg`}
                                             />
+                                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                                         </div>
+
+                                        {/* Password Field */}
                                         <div>
                                             <label className="block text-gray-700">Password</label>
                                             <input
@@ -152,8 +199,12 @@ const ProfilePage = () => {
                                                     setUser({ ...user, password: e.target.value });
                                                     setPasswordChanged(true);
                                                 }}
+                                                className={`w-full p-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg`}
                                             />
+                                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                                         </div>
+
+                                        {/* Save Changes Button */}
                                         <button
                                             type="button"
                                             onClick={handleSave}
