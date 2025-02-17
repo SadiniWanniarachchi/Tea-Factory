@@ -100,7 +100,7 @@ const ProfilePage = () => {
 
             console.log(payload);
 
-            await axios.put(`http://localhost:5000/api/user/user/${userData.id}`, payload);
+            await axios.put(`http://localhost:5000/api/user/${userData.id}`, payload);
             setIsEditing(false);
             navigate("../Login");
         } catch (error) {
@@ -119,11 +119,7 @@ const ProfilePage = () => {
         }
     };
 
-    const [orders] = useState([
-        { id: 1, date: "2023-10-01", total: "$35.98", status: "Delivered" },
-        { id: 2, date: "2023-09-25", total: "$18.99", status: "Shipped" },
-        { id: 3, date: "2023-09-20", total: "$50.97", status: "Processing" },
-    ]);
+
 
     return (
         <>
@@ -236,33 +232,7 @@ const ProfilePage = () => {
                         </div>
                     </div>
 
-                    <div className="mt-12 bg-white p-8 rounded-lg shadow-lg">
-                        <h2 className="text-3xl font-bold text-green-900 mb-6 flex items-center">
-                            <FaHistory className="mr-2" /> Order History
-                        </h2>
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full bg-white">
-                                <thead>
-                                    <tr>
-                                        <th className="py-2 px-4 border-b">Order ID</th>
-                                        <th className="py-2 px-4 border-b">Date</th>
-                                        <th className="py-2 px-4 border-b">Total</th>
-                                        <th className="py-2 px-4 border-b">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orders.map((order) => (
-                                        <tr key={order.id} className="hover:bg-gray-50 transition duration-300">
-                                            <td className="py-2 px-4 border-b text-center">{order.id}</td>
-                                            <td className="py-2 px-4 border-b text-center">{order.date}</td>
-                                            <td className="py-2 px-4 border-b text-center">{order.total}</td>
-                                            <td className="py-2 px-4 border-b text-center">{order.status}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
 
                     {/* Delete Account Button */}
                     <div className="mt-8 text-center">
