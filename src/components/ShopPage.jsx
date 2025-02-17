@@ -3,22 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import oolongTea from "../assets/oolongtea.jpeg";
-import blackTea from "../assets/blacktea.jpg";
-import herbalTea from "../assets/herbaltea.jpeg";
-import lemonTea from "../assets/lemontea.jpeg";
-import yellowTea from "../assets/yellowtea.jpeg";
 import axios from "axios";
 import { motion } from "framer-motion";
 
 const ShopPage = () => {
   const [cartCount, setCartCount] = useState(0);
   const [showCartIcon, setShowCartIcon] = useState(true);
+  const [products, setProducts] = useState([]);
   const footerRef = useRef(null);
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState([]);
-
+  // Fetch products from the backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -31,23 +26,30 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
-
+  // Add to cart function
   const addToCart = async (product) => {
-    console.log("Adding to cart:", product);
+    console.log("Add to Cart clicked:", product); // Debugging line
     try {
-      await axios.post("http://localhost:5000/api/cart", {
-        productId: product._id,
+      const response = await axios.post("http://localhost:5000/api/cart", {
         name: product.name,
         image: product.image,
-        price: `$${parseFloat(product.price).toFixed(2)}`, // Ensures 2 decimal places
-
+        price: product.price,
       });
-      setCartCount(prev => prev + 1);
+      console.log("API Response:", response.data); // Debugging line
+      setCartCount((prev) => prev + 1);
     } catch (error) {
       console.error("Error adding to cart:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("Request:", error.request);
+      } else {
+        console.error("Error message:", error.message);
+      }
     }
   };
-
 
   // Intersection Observer for Floating Cart Icon
   useEffect(() => {
@@ -84,7 +86,6 @@ const ShopPage = () => {
 
         {/* Product Grid */}
         <div className="max-w-6xl mx-auto px-4 py-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-
           {products.map((product) => (
             <motion.div
               className="bg-[#f3f6f3] font-kulim border border-gray-200 rounded-lg shadow-sm hover:shadow-md overflow-hidden transition-transform transform hover:-translate-y-2"
@@ -108,7 +109,6 @@ const ShopPage = () => {
                   <p className="text-green-900 text-xl font-bold">
                     ${parseFloat(product.price).toFixed(2)}
                   </p>
-
                 </div>
 
                 {/* Product Category */}
@@ -133,7 +133,6 @@ const ShopPage = () => {
               </div>
             </motion.div>
           ))}
-
         </div>
 
         {/* Floating Cart Icon */}
@@ -150,11 +149,9 @@ const ShopPage = () => {
             )}
           </div>
         )}
-
       </div>
 
-      <Footer />
-
+      <Footer ref={footerRef} />
     </>
   );
 };

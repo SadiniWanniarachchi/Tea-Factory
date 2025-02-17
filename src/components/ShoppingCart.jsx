@@ -4,9 +4,59 @@ import { FaTrash, FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 
 const ShoppingCart = () => {
-  const navigate = useNavigate();
+
   const [cartItems, setCartItems] = useState([]);
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [showModal, setShowModal] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState({
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+  });
+  const [errors, setErrors] = useState({});
+
+  // Handle input changes and restrict non-numeric input for certain fields
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+
+    // Prevent non-numeric input for card number, expiry date, and CVV
+    if (id === "cardNumber" || id === "cvv") {
+      if (!/^\d*$/.test(value)) return; // Only digits allowed
+    }
+    if (id === "expiryDate") {
+      if (!/^[0-9/]*$/.test(value)) return; // Only digits and slash allowed
+    }
+
+    setPaymentDetails((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
+  // Handle expiry date change and format it to MM/YY
+  const handleDateChange = (e) => {
+    const date = e.target.value;
+    const [year, month] = date.split("-"); // yyyy-mm-dd format
+    const formattedDate = `${month}/${year.slice(2, 4)}`; // MM/YY format
+    setPaymentDetails((prevState) => ({
+      ...prevState,
+      expiryDate: formattedDate,
+    }));
+  };
+
+  // Validate card number
+  const validateCardNumber = (value) => {
+    return /^\d{16}$/.test(value); // Card number must be 16 digits
+  };
+
+  // Validate expiry date (MM/YY format)
+  const validateExpiryDate = (value) => {
+    return /^(0[1-9]|1[0-2])\/\d{2}$/.test(value); // MM/YY format
+  };
+
+  // Validate CVV (3 digits)
+  const validateCVV = (value) => {
+    return /^\d{3}$/.test(value); // CVV must be 3 digits
+  };
 
   // Fetch cart data from backend
   useEffect(() => {
@@ -33,6 +83,35 @@ const ShoppingCart = () => {
       );
     } catch (error) {
       console.error("Error updating quantity:", error);
+    }
+  };
+
+  // Handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newErrors = {};
+
+    // Validate card number
+    if (!validateCardNumber(paymentDetails.cardNumber)) {
+      newErrors.cardNumber = "Card number must be 16 digits.";
+    }
+
+    // Validate expiry date
+    if (!validateExpiryDate(paymentDetails.expiryDate)) {
+      newErrors.expiryDate = "Expiry date must be in MM/YY format.";
+    }
+
+    // Validate CVV
+    if (!validateCVV(paymentDetails.cvv)) {
+      newErrors.cvv = "CVV must be 3 digits.";
+    }
+
+    // If there are errors, set them
+    if (Object.keys(newErrors).length === 0) {
+      console.log("Payment submitted:", paymentDetails);
+      setShowModal(false); // Close the modal on successful form submission
+    } else {
+      setErrors(newErrors); // Show validation errors
     }
   };
 
@@ -63,6 +142,7 @@ const ShoppingCart = () => {
   const handleCloseModal = () => {
     setShowModal(false); // Hide the modal
   };
+
 
   return (
     <div className="min-h-screen bg-accent text-gray-800 font-kulim">
@@ -153,33 +233,55 @@ const ShoppingCart = () => {
             <h2 className="text-2xl font-semibold text-center mb-4">Payment Details</h2>
 
             {/* Payment form */}
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="cardNumber" className="block text-sm">Card Number</label>
+                <label htmlFor="cardNumber" className="block text-sm">
+                  Card Number
+                </label>
                 <input
                   type="text"
                   id="cardNumber"
                   className="w-full p-2 border rounded"
                   placeholder="Enter your card number"
+                  value={paymentDetails.cardNumber}
+                  onChange={handleInputChange}
+                  maxLength="16"
                 />
+                {errors.cardNumber && (
+                  <p className="text-red-500 text-sm">{errors.cardNumber}</p>
+                )}
               </div>
               <div className="mb-4">
-                <label htmlFor="expiryDate" className="block text-sm">Expiry Date</label>
+                <label htmlFor="expiryDate" className="block text-sm">
+                  Expiry Date (MM/YY)
+                </label>
                 <input
                   type="text"
                   id="expiryDate"
                   className="w-full p-2 border rounded"
                   placeholder="MM/YY"
+                  value={paymentDetails.expiryDate}
+                  onChange={handleInputChange}
+                  maxLength="5" // MM/YY format
                 />
+                {errors.expiryDate && (
+                  <p className="text-red-500 text-sm">{errors.expiryDate}</p>
+                )}
               </div>
               <div className="mb-4">
-                <label htmlFor="cvv" className="block text-sm">CVV</label>
+                <label htmlFor="cvv" className="block text-sm">
+                  CVV
+                </label>
                 <input
                   type="text"
                   id="cvv"
                   className="w-full p-2 border rounded"
                   placeholder="Enter your CVV"
+                  value={paymentDetails.cvv}
+                  onChange={handleInputChange}
+                  maxLength="3"
                 />
+                {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
               </div>
               <div className="flex justify-between items-center">
                 <button
@@ -197,6 +299,7 @@ const ShoppingCart = () => {
                 </button>
               </div>
             </form>
+
           </div>
         </div>
       )}
