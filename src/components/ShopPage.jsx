@@ -10,6 +10,8 @@ const ShopPage = () => {
   const [cartCount, setCartCount] = useState(0);
   const [showCartIcon, setShowCartIcon] = useState(true);
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [buttonStates, setButtonStates] = useState({});
   const footerRef = useRef(null);
   const navigate = useNavigate();
 
@@ -26,28 +28,37 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
-  // Add to cart function
-  const addToCart = async (product) => {
-    console.log("Add to Cart clicked:", product); // Debugging line
-    try {
-      const response = await axios.post("http://localhost:5000/api/cart", {
-        name: product.name,
-        image: product.image,
-        price: product.price,
-      });
-      console.log("API Response:", response.data); // Debugging line
-      setCartCount((prev) => prev + 1);
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("Request:", error.request);
-      } else {
-        console.error("Error message:", error.message);
-      }
+  // Load cart count from localStorage
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(storedCart);
+    setCartCount(storedCart.length);
+    // Update button states to reflect cart contents
+    const updatedButtonStates = {};
+    storedCart.forEach((product) => {
+      updatedButtonStates[product._id] = true;
+    });
+    setButtonStates(updatedButtonStates);
+  }, []);
+
+  // Add to cart function (uses localStorage)
+  // Add to cart function (uses localStorage)
+  const toggleCart = (product) => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const productIndex = storedCart.findIndex((item) => item._id === product._id);
+
+    if (productIndex === -1) {
+      // If product is not already in cart, add with quantity 1
+      const newCart = [...storedCart, { ...product, quantity: 1 }];
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      setCartCount(newCart.length);
+      setButtonStates((prev) => ({ ...prev, [product._id]: true }));
+    } else {
+      // If product is already in cart, toggle its existence
+      const newCart = storedCart.filter((item) => item._id !== product._id);
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      setCartCount(newCart.length);
+      setButtonStates((prev) => ({ ...prev, [product._id]: false }));
     }
   };
 
@@ -72,7 +83,7 @@ const ShopPage = () => {
   }, []);
 
   const handleCartClick = () => {
-    console.log("Cart icon clicked"); // This will log in the console when the icon is clicked
+    console.log("Cart icon clicked");
     navigate("/shoppingcart"); // Ensure this is the correct path for your cart page
   };
 
@@ -90,7 +101,7 @@ const ShopPage = () => {
             <motion.div
               className="bg-[#f3f6f3] font-kulim border border-gray-200 rounded-lg shadow-sm hover:shadow-md overflow-hidden transition-transform transform hover:-translate-y-2"
               whileHover={{ scale: 1.05 }}
-              key={product.id}
+              key={product._id}
             >
               {/* Product Image */}
               <div className="relative font-kulim">
@@ -125,10 +136,11 @@ const ShopPage = () => {
                 </button>
 
                 <button
-                  onClick={() => addToCart(product)}
-                  className="bg-green-900 text-white py-2 px-6 rounded-full hover:bg-gray-600 transition"
+                  onClick={() => toggleCart(product)}
+                  className={`${buttonStates[product._id] ? "bg-gray-600" : "bg-green-900"
+                    } text-white py-2 px-6 rounded-full hover:bg-gray-600 transition`}
                 >
-                  Add to Cart
+                  {buttonStates[product._id] ? "Remove from Cart" : "Add to Cart"}
                 </button>
               </div>
             </motion.div>

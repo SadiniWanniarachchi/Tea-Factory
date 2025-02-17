@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaArrowLeft } from "react-icons/fa";
-import axios from "axios";
 
 const ShoppingCart = () => {
-
   const [cartItems, setCartItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
@@ -13,6 +11,13 @@ const ShoppingCart = () => {
     cvv: "",
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  // Load cart data from localStorage
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartItems(storedCart);
+  }, [localStorage.getItem("cart")]);
 
   // Handle input changes and restrict non-numeric input for certain fields
   const handleInputChange = (e) => {
@@ -33,96 +38,83 @@ const ShoppingCart = () => {
   };
 
   // Handle expiry date change and format it to MM/YY
+  // Handle expiry date change and format it to MM/YY
   const handleDateChange = (e) => {
-    const date = e.target.value;
-    const [year, month] = date.split("-"); // yyyy-mm-dd format
-    const formattedDate = `${month}/${year.slice(2, 4)}`; // MM/YY format
-    setPaymentDetails((prevState) => ({
-      ...prevState,
-      expiryDate: formattedDate,
-    }));
-  };
+    const value = e.target.value;
 
-  // Validate card number
-  const validateCardNumber = (value) => {
-    return /^\d{16}$/.test(value); // Card number must be 16 digits
-  };
-
-  // Validate expiry date (MM/YY format)
-  const validateExpiryDate = (value) => {
-    return /^(0[1-9]|1[0-2])\/\d{2}$/.test(value); // MM/YY format
-  };
-
-  // Validate CVV (3 digits)
-  const validateCVV = (value) => {
-    return /^\d{3}$/.test(value); // CVV must be 3 digits
-  };
-
-  // Fetch cart data from backend
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/cart");
-        setCartItems(response.data);
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    };
-    fetchCartItems();
-  }, []);
-
-  // Handle quantity change
-  const handleQuantityChange = async (_id, newQuantity) => {
-    if (newQuantity < 1) return;
-    try {
-      await axios.put(`http://localhost:5000/api/cart/${_id}`, { quantity: newQuantity });
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item._id === _id ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    } catch (error) {
-      console.error("Error updating quantity:", error);
+    // If user enters a slash, add it automatically after 2 digits
+    if (value.length === 2 && !value.includes("/")) {
+      setPaymentDetails((prevState) => ({
+        ...prevState,
+        expiryDate: `${value}/`,
+      }));
+    } else if (value.length === 5 && value[2] === "/") {
+      setPaymentDetails((prevState) => ({
+        ...prevState,
+        expiryDate: value,
+      }));
+    } else {
+      setPaymentDetails((prevState) => ({
+        ...prevState,
+        expiryDate: value,
+      }));
     }
   };
 
+  // Handle quantity change
+  const handleQuantityChange = (_id, newQuantity) => {
+    if (newQuantity < 1) return;
+    const updatedCart = cartItems.map((item) =>
+      item._id === _id ? { ...item, quantity: newQuantity } : item
+    );
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  // Handle form submit
   // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
 
     // Validate card number
-    if (!validateCardNumber(paymentDetails.cardNumber)) {
+    if (!/^\d{16}$/.test(paymentDetails.cardNumber)) {
       newErrors.cardNumber = "Card number must be 16 digits.";
     }
 
     // Validate expiry date
-    if (!validateExpiryDate(paymentDetails.expiryDate)) {
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(paymentDetails.expiryDate)) {
       newErrors.expiryDate = "Expiry date must be in MM/YY format.";
     }
 
     // Validate CVV
-    if (!validateCVV(paymentDetails.cvv)) {
+    if (!/^\d{3}$/.test(paymentDetails.cvv)) {
       newErrors.cvv = "CVV must be 3 digits.";
     }
 
-    // If there are errors, set them
+    // If there are no errors, proceed with payment and clear the cart
     if (Object.keys(newErrors).length === 0) {
       console.log("Payment submitted:", paymentDetails);
-      setShowModal(false); // Close the modal on successful form submission
+
+      // Clear the cart from localStorage
+      localStorage.removeItem("cart");
+
+      // Close the modal on successful form submission
+      setShowModal(false);
+
+      // Optionally, show a success message or redirect the user
+      alert("Payment submitted and cart cleared!");
     } else {
       setErrors(newErrors); // Show validation errors
     }
   };
 
+
   // Remove item from cart
-  const handleRemoveItem = async (_id) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/cart/${_id}`);
-      setCartItems((prevItems) => prevItems.filter((item) => item._id !== _id));
-    } catch (error) {
-      console.error("Error removing item:", error);
-    }
+  const handleRemoveItem = (_id) => {
+    const updatedCart = cartItems.filter((item) => item._id !== _id);
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   // Calculate total price
@@ -142,7 +134,6 @@ const ShoppingCart = () => {
   const handleCloseModal = () => {
     setShowModal(false); // Hide the modal
   };
-
 
   return (
     <div className="min-h-screen bg-accent text-gray-800 font-kulim">
@@ -261,7 +252,7 @@ const ShoppingCart = () => {
                   className="w-full p-2 border rounded"
                   placeholder="MM/YY"
                   value={paymentDetails.expiryDate}
-                  onChange={handleInputChange}
+                  onChange={handleDateChange}
                   maxLength="5" // MM/YY format
                 />
                 {errors.expiryDate && (
@@ -299,7 +290,6 @@ const ShoppingCart = () => {
                 </button>
               </div>
             </form>
-
           </div>
         </div>
       )}
