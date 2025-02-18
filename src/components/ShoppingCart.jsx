@@ -13,55 +13,32 @@ const ShoppingCart = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  // Load cart data from localStorage
+  // Load cart data from localStorage (assuming cart management remains in localStorage)
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(storedCart);
-  }, [localStorage.getItem("cart")]);
+  }, []);
 
-  // Handle input changes and restrict non-numeric input for certain fields
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-
-    // Prevent non-numeric input for card number, expiry date, and CVV
     if (id === "cardNumber" || id === "cvv") {
-      if (!/^\d*$/.test(value)) return; // Only digits allowed
+      if (!/^\d*$/.test(value)) return;
     }
     if (id === "expiryDate") {
-      if (!/^[0-9/]*$/.test(value)) return; // Only digits and slash allowed
+      if (!/^[0-9/]*$/.test(value)) return;
     }
-
-    setPaymentDetails((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    setPaymentDetails((prev) => ({ ...prev, [id]: value }));
   };
 
-  // Handle expiry date change and format it to MM/YY
-  // Handle expiry date change and format it to MM/YY
   const handleDateChange = (e) => {
     const value = e.target.value;
-
-    // If user enters a slash, add it automatically after 2 digits
     if (value.length === 2 && !value.includes("/")) {
-      setPaymentDetails((prevState) => ({
-        ...prevState,
-        expiryDate: `${value}/`,
-      }));
-    } else if (value.length === 5 && value[2] === "/") {
-      setPaymentDetails((prevState) => ({
-        ...prevState,
-        expiryDate: value,
-      }));
+      setPaymentDetails((prev) => ({ ...prev, expiryDate: `${value}/` }));
     } else {
-      setPaymentDetails((prevState) => ({
-        ...prevState,
-        expiryDate: value,
-      }));
+      setPaymentDetails((prev) => ({ ...prev, expiryDate: value }));
     }
   };
 
-  // Handle quantity change
   const handleQuantityChange = (_id, newQuantity) => {
     if (newQuantity < 1) return;
     const updatedCart = cartItems.map((item) =>
@@ -71,68 +48,81 @@ const ShoppingCart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  // Handle form submit
-  // Handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = {};
-
-    // Validate card number
-    if (!/^\d{16}$/.test(paymentDetails.cardNumber)) {
-      newErrors.cardNumber = "Card number must be 16 digits.";
-    }
-
-    // Validate expiry date
-    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(paymentDetails.expiryDate)) {
-      newErrors.expiryDate = "Expiry date must be in MM/YY format.";
-    }
-
-    // Validate CVV
-    if (!/^\d{3}$/.test(paymentDetails.cvv)) {
-      newErrors.cvv = "CVV must be 3 digits.";
-    }
-
-    // If there are no errors, proceed with payment and clear the cart
-    if (Object.keys(newErrors).length === 0) {
-      console.log("Payment submitted:", paymentDetails);
-
-      // Clear the cart from localStorage
-      localStorage.removeItem("cart");
-
-      // Close the modal on successful form submission
-      setShowModal(false);
-
-      // Optionally, show a success message or redirect the user
-      alert("Payment submitted and cart cleared!");
-    } else {
-      setErrors(newErrors); // Show validation errors
-    }
-  };
-
-
-  // Remove item from cart
   const handleRemoveItem = (_id) => {
     const updatedCart = cartItems.filter((item) => item._id !== _id);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  // Calculate total price
   const totalPrice = cartItems.reduce(
-    (sum, item) => sum + (typeof item.price === "string"
-      ? parseFloat(item.price.replace("$", "")) * item.quantity
-      : item.price * item.quantity),
+    (sum, item) =>
+      sum +
+      (typeof item.price === "string"
+        ? parseFloat(item.price.replace("$", "")) * item.quantity
+        : item.price * item.quantity),
     0
   );
 
-  // Handle "Proceed to Checkout" button click
   const handleProceedToCheckout = () => {
-    setShowModal(true); // Show the modal
+    setShowModal(true);
   };
 
-  // Close modal
   const handleCloseModal = () => {
-    setShowModal(false); // Hide the modal
+    setShowModal(false);
+  };
+
+  // On submit, validate payment details and send the order to the backend
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
+
+    if (!/^\d{16}$/.test(paymentDetails.cardNumber)) {
+      newErrors.cardNumber = "Card number must be 16 digits.";
+    }
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(paymentDetails.expiryDate)) {
+      newErrors.expiryDate = "Expiry date must be in MM/YY format.";
+    }
+    if (!/^\d{3}$/.test(paymentDetails.cvv)) {
+      newErrors.cvv = "CVV must be 3 digits.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Create the order object based on cart items
+    const order = {
+      customerId: "CUSTOMER123", // Replace with dynamic customer info if available
+      product: cartItems.map(item => item.name).join(", "),
+      quantity: cartItems.reduce((acc, item) => acc + item.quantity, 0),
+      status: "Pending",
+      date: new Date().toISOString(),
+    };
+
+    try {
+      // Send the order to your backend
+      const response = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(order)
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Clear cart
+        localStorage.removeItem("cart");
+        setCartItems([]);
+        setShowModal(false);
+        alert("Payment submitted and order saved!");
+      } else {
+        alert("Failed to save order. Try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting order:", error);
+      alert("Error submitting order.");
+    }
   };
 
   return (
@@ -154,17 +144,9 @@ const ShoppingCart = () => {
           ) : (
             <>
               {cartItems.map((item) => (
-                <div
-                  key={item._id} // Unique key for each item
-                  className="flex flex-col sm:flex-row items-center justify-between border-b border-gray-200 py-4"
-                >
-                  {/* Item details */}
+                <div key={item._id} className="flex flex-col sm:flex-row items-center justify-between border-b border-gray-200 py-4">
                   <div className="flex items-center space-x-4">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-16 h-16 object-cover rounded"
-                    />
+                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
                     <div>
                       <h2 className="text-lg font-semibold">{item.name}</h2>
                       <p className="text-base text-black font-bold">
@@ -172,8 +154,6 @@ const ShoppingCart = () => {
                       </p>
                     </div>
                   </div>
-
-                  {/* Quantity controls */}
                   <div className="flex items-center space-x-4 mt-4 sm:mt-0">
                     <button
                       onClick={() => handleQuantityChange(item._id, Math.max(1, item.quantity - 1))}
@@ -189,8 +169,6 @@ const ShoppingCart = () => {
                       +
                     </button>
                   </div>
-
-                  {/* Delete button */}
                   <button
                     onClick={() => handleRemoveItem(item._id)}
                     className="text-red-900 mt-4 sm:mt-0 text-xl"
@@ -199,12 +177,8 @@ const ShoppingCart = () => {
                   </button>
                 </div>
               ))}
-
-              {/* Total and checkout */}
               <div className="mt-16 text-right">
-                <h3 className="text-xl font-semibold">
-                  Total: ${totalPrice.toFixed(2)}
-                </h3>
+                <h3 className="text-xl font-semibold">Total: ${totalPrice.toFixed(2)}</h3>
                 <button
                   onClick={handleProceedToCheckout}
                   className="mt-4 px-6 py-2 bg-green-900 text-white rounded hover:bg-green-700 transition"
@@ -217,18 +191,13 @@ const ShoppingCart = () => {
         </div>
       </div>
 
-      {/* Payment Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-96">
             <h2 className="text-2xl font-semibold text-center mb-4">Payment Details</h2>
-
-            {/* Payment form */}
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="cardNumber" className="block text-sm">
-                  Card Number
-                </label>
+                <label htmlFor="cardNumber" className="block text-sm">Card Number</label>
                 <input
                   type="text"
                   id="cardNumber"
@@ -238,14 +207,10 @@ const ShoppingCart = () => {
                   onChange={handleInputChange}
                   maxLength="16"
                 />
-                {errors.cardNumber && (
-                  <p className="text-red-500 text-sm">{errors.cardNumber}</p>
-                )}
+                {errors.cardNumber && <p className="text-red-500 text-sm">{errors.cardNumber}</p>}
               </div>
               <div className="mb-4">
-                <label htmlFor="expiryDate" className="block text-sm">
-                  Expiry Date (MM/YY)
-                </label>
+                <label htmlFor="expiryDate" className="block text-sm">Expiry Date (MM/YY)</label>
                 <input
                   type="text"
                   id="expiryDate"
@@ -253,16 +218,12 @@ const ShoppingCart = () => {
                   placeholder="MM/YY"
                   value={paymentDetails.expiryDate}
                   onChange={handleDateChange}
-                  maxLength="5" // MM/YY format
+                  maxLength="5"
                 />
-                {errors.expiryDate && (
-                  <p className="text-red-500 text-sm">{errors.expiryDate}</p>
-                )}
+                {errors.expiryDate && <p className="text-red-500 text-sm">{errors.expiryDate}</p>}
               </div>
               <div className="mb-4">
-                <label htmlFor="cvv" className="block text-sm">
-                  CVV
-                </label>
+                <label htmlFor="cvv" className="block text-sm">CVV</label>
                 <input
                   type="text"
                   id="cvv"
@@ -282,10 +243,7 @@ const ShoppingCart = () => {
                 >
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="bg-green-900 text-white px-6 py-2 rounded hover:bg-green-700"
-                >
+                <button type="submit" className="bg-green-900 text-white px-6 py-2 rounded hover:bg-green-700">
                   Submit Payment
                 </button>
               </div>
